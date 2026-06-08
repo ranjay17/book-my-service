@@ -10,7 +10,7 @@ export const getVendorBookings = async (req, res) => {
 
     const bookings = await Booking.find({
       vendorId: req.user.id,
-    });
+    }).sort({ createdAt: -1 });
 
     return res.status(200).json({
       bookings,
@@ -48,7 +48,6 @@ export const confirmBooking = async (req, res) => {
 
     if (
       booking.status === "confirmed" ||
-      booking.status === "completed" ||
       booking.status === "cancelled"
     ) {
       return res.status(400).json({
@@ -70,46 +69,37 @@ export const confirmBooking = async (req, res) => {
   }
 };
 
-export const completeBooking = async (req, res) => {
+export const cancelBooking = async(req,res) =>{
   try {
     if (req.user.role !== "vendor") {
-      return res.status(403).json({
-        message: "Only vendors can complete bookings",
-      });
+      return res
+        .status(400)
+        .json({ message: "you are not allowed to cancel the request" });
     }
-
     const { id } = req.params;
-
     const booking = await Booking.findById(id);
-
     if (!booking) {
-      return res.status(404).json({
-        message: "Booking not found",
-      });
+      return res.status(400).json({ message: "booking not found" });
     }
-
     if (booking.vendorId.toString() !== req.user.id) {
       return res.status(403).json({
         message: "You are not authorized",
       });
     }
-
-    if (booking.status !== "confirmed") {
+    if (booking.status === "confirmed" || booking.status === "cancelled") {
       return res.status(400).json({
-        message: "Only confirmed bookings can be completed",
+        message: `Booking is already ${booking.status}`,
       });
     }
-
-    booking.status = "completed";
+    booking.status = "cancelled";
     await booking.save();
-
-    return res.status(200).json({
-      message: "Booking completed successfully",
-      booking,
+    res.status(200).json({
+      message: "Service cancelled successfully",
+      booking
     });
   } catch (error) {
-    return res.status(500).json({
-      message: error.message,
-    });
+    return res.status(500).json({ message: error.message });
   }
-};
+  
+
+}

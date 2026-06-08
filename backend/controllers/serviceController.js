@@ -40,6 +40,11 @@ export const getParticularService = async(req,res) =>{
     try {
         const{id} = req.params;
         const particularService = await Service.findById(id);
+        if (!particularService) {
+          return res.status(404).json({
+            message: "Service not found",
+          });
+        }
         return res.status(200).json({particularService})
     } catch (error) {
         return res.status(500).json({ message: error.message });

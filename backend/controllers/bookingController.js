@@ -67,7 +67,7 @@ export const createBooking = async (req, res) => {
 
 export const getAllBooking = async (req, res) => {
   try {
-    if (req.user.role != "user") {
+    if (req.user.role !== "user") {
       return res.status(400).json({
         message: "Only users can view their bookings",
       });
