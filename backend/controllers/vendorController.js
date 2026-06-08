@@ -1,4 +1,6 @@
 import Booking from "../models/bookingModel.js";
+import User from "../models/userModel.js";
+import sendMail from "../utils/sendMail.js";
 
 export const getVendorBookings = async (req, res) => {
   try {
@@ -58,6 +60,19 @@ export const confirmBooking = async (req, res) => {
     booking.status = "confirmed";
     await booking.save();
 
+    const user = await User.findById(booking.userId)
+    if (user) {
+      try {
+        await sendMail(
+          user.email,
+          "Booking Confirmed",
+          "Your booking has been confirmed by the vendor.",
+        );
+      } catch (err) {
+        console.log("Mail failed",err);
+      }
+    }
+
     return res.status(200).json({
       message: "Booking confirmed successfully",
       booking,
@@ -93,6 +108,18 @@ export const cancelBooking = async(req,res) =>{
     }
     booking.status = "cancelled";
     await booking.save();
+    const user = await User.findById(booking.userId);
+    if (user) {
+      try {
+        await sendMail(
+          user.email,
+          "Booking Cancelled",
+          "Unfortunately, your booking has been cancelled by the vendor.",
+        );
+      } catch (err) {
+        console.log("Mail failed",err);
+      }
+    }
     res.status(200).json({
       message: "Service cancelled successfully",
       booking
@@ -100,6 +127,4 @@ export const cancelBooking = async(req,res) =>{
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
-  
-
 }

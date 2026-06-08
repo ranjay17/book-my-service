@@ -1,5 +1,7 @@
 import Booking from "../models/bookingModel.js";
 import Service from "../models/serviceModel.js";
+import sendMail from "../utils/sendMail.js";
+import User from "../models/userModel.js";
 
 export const createBooking = async (req, res) => {
   try {
@@ -24,6 +26,13 @@ export const createBooking = async (req, res) => {
         message: "Service not found",
       });
     }
+    const vendor = await User.findById(service.vendorId);
+
+    if (!vendor) {
+  return res.status(404).json({
+    message: "Vendor not found",
+  });
+}
 
     const existingBooking = await Booking.findOne({
       serviceId,
@@ -53,6 +62,15 @@ export const createBooking = async (req, res) => {
     });
 
     await newBooking.save();
+    try {
+      await sendMail(
+        vendor.email,
+        "New Booking Request",
+        "You have received a new booking request. Please confirm or cancel it.",
+      );
+    } catch (err) {
+      console.log("Mail failed");
+    }
 
     return res.status(200).json({
       message: "Booking request sent",
