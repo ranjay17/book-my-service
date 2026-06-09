@@ -1,19 +1,43 @@
 import React, { useState } from "react";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { addUser } from "../redux/userSlice";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = (e) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    const user = {
-      email,
-      password,
-    };
+    try {
+      if (!email || !password) {
+        return alert("All fields are required");
+      }
 
-    console.log(user);
-    alert("Login Successful");
+      const response = await axios.post(
+        "http://localhost:8000/user/login",
+        {
+          email,
+          password,
+        }
+      );
+
+      if (response.status === 200) {
+        alert("Login Successful");
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+        localStorage.setItem("token", response.data.token);
+        dispatch(addUser(response.data.user));
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error);
+      alert("login failed");
+    }
   };
 
   return (

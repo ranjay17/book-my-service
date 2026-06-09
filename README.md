@@ -1,6 +1,8 @@
 # 🚀 Book My Service
 
-A Full Stack **MERN** application that connects **customers** with **local service providers** such as salons, photographers, electricians, plumbers, and more. Customers can book services while vendors can create and manage their own offerings through a secure role-based system.
+A Full Stack **MERN** application that connects **customers** with **local service providers** such as salons, photographers, electricians, plumbers, cleaners, and more.
+
+Customers can discover and book services, while vendors can create, manage, and receive booking requests through a secure role-based platform.
 
 > 🚧 **Project Status:** Under Active Development
 
@@ -10,40 +12,51 @@ A Full Stack **MERN** application that connects **customers** with **local servi
 
 ## 👤 Customer
 
-- ✅ User Registration
-- ✅ User Login
-- ✅ JWT Authentication
-- ✅ Browse Available Services
-- ✅ View Service Details
-- ✅ Book a Service
-- ✅ Prevent Duplicate Slot Booking
-- ✅ Cancel Booking
-- 🚧 View My Bookings
-- 🚧 AI Chat Assistant
+* ✅ User Registration
+* ✅ User Login
+* ✅ JWT Authentication
+* ✅ Browse Available Services
+* ✅ View Service Details
+* ✅ Book a Service
+* ✅ Prevent Duplicate Slot Booking
+* ✅ Cancel Booking
+* ✅ View My Bookings
+* 🚧 AI Chat Assistant
 
 ---
 
 ## 🏪 Vendor
 
-- ✅ Vendor Registration
-- ✅ Vendor Login
-- ✅ Create Service
-- ✅ Update Service
-- ✅ Delete Service
-- 🚧 View Booking Requests
-- 🚧 Confirm Booking
-- 🚧 Reject Booking
-- 🚧 Mark Booking as Completed
+* ✅ Vendor Registration
+* ✅ Vendor Login
+* ✅ Create Service
+* ✅ Update Service
+* ✅ Delete Service
+* ✅ View Booking Requests
+* ✅ Confirm Booking Requests
+* ✅ Cancel Booking Requests
+* 🚧 Vendor Dashboard
+
+---
+
+# 📧 Email Notifications
+
+Powered by **Nodemailer**
+
+* ✅ Vendor receives an email when a new booking request is created
+* ✅ User receives an email when a booking is confirmed
+* ✅ User receives an email when a booking is cancelled by the vendor
 
 ---
 
 # 🔐 Authentication & Authorization
 
-- JWT Authentication
-- Role-Based Authorization
-- Protected Routes
-- User & Vendor Separation
-- Password Hashing using **bcrypt**
+* ✅ JWT Authentication
+* ✅ Role-Based Authorization
+* ✅ Protected Routes
+* ✅ Password Hashing using bcrypt
+* ✅ Frontend Authentication Integration
+* ✅ Persistent Login using Redux + localStorage
 
 ---
 
@@ -51,27 +64,30 @@ A Full Stack **MERN** application that connects **customers** with **local servi
 
 ## User APIs
 
-- Register User
-- Login User
+* Register User
+* Login User
 
 ---
 
 ## Service APIs
 
-- Create Service
-- Get All Services
-- Get Particular Service
-- Update Service
-- Delete Service
+* Create Service
+* Get All Services
+* Get Particular Service
+* Update Service
+* Delete Service
 
 ---
 
 ## Booking APIs
 
-- Create Booking
-- Get User Bookings
-- Cancel Booking
-- Slot Availability Validation
+* Create Booking
+* Get User Bookings
+* Cancel Booking
+* Get Vendor Bookings
+* Confirm Booking
+* Cancel Booking (Vendor)
+* Slot Availability Validation
 
 ---
 
@@ -79,28 +95,40 @@ A Full Stack **MERN** application that connects **customers** with **local servi
 
 ## Home Page
 
-- Responsive Hero Section
-- Popular Services Section
-- Modern UI
+* Responsive Hero Section
+* Popular Services Section
+* Modern UI
+
+---
+
+## Authentication Module
+
+* ✅ Signup Page Integrated
+* ✅ Login Page Integrated
+* ✅ Redux User State
+* ✅ localStorage Persistence
+* ✅ Auto Login After Refresh
+* ✅ Dynamic Header (Login/Signup ↔ Logout)
 
 ---
 
 ## Service Module
 
-- Service Cards
-- Service Details Page
-- Booking Interface
-- Date Selection
-- Time Slot Selection
+* Service Cards
+* Service Details Page
+* Booking Interface
+* Date Selection
+* Time Slot Selection
 
 ---
 
 ## State Management
 
-- Redux Store
-- Booking Slice
-- Add Booking
-- Cancel Booking
+* Redux Toolkit
+* User Slice
+* Booking Slice
+* Authentication State
+* Persistent User Session
 
 ---
 
@@ -108,21 +136,23 @@ A Full Stack **MERN** application that connects **customers** with **local servi
 
 ## Frontend
 
-- React.js
-- React Router DOM
-- Redux Toolkit
-- Tailwind CSS
+* React.js
+* React Router DOM
+* Redux Toolkit
+* Tailwind CSS
+* Axios
 
 ---
 
 ## Backend
 
-- Node.js
-- Express.js
-- MongoDB
-- Mongoose
-- JWT
-- bcrypt
+* Node.js
+* Express.js
+* MongoDB
+* Mongoose
+* JWT
+* bcrypt
+* Nodemailer
 
 ---
 
@@ -138,12 +168,13 @@ Book-My-Service/
 │   ├── redux/
 │   └── routing/
 
-├── server/
+├── backend/
 │   ├── config/
 │   ├── controllers/
 │   ├── middleware/
 │   ├── models/
 │   ├── routes/
+│   ├── utils/
 │   └── index.js
 
 ├── .gitignore
@@ -157,99 +188,105 @@ Book-My-Service/
 
 ## User
 
-- name
-- email
-- phone
-- password
-- role (user/vendor)
+* name
+* email
+* phone
+* password
+* role (user/vendor)
 
 ---
 
 ## Service
 
-- title
-- description
-- price
-- image
-- category
-- vendorId
-- location
+* title
+* description
+* price
+* image
+* category
+* vendorId
+* location
 
 ---
 
 ## Booking
 
-- userId
-- vendorId
-- serviceId
-- serviceTitle
-- price
-- bookingDate
-- bookingTime
-- location
-- status
+* userId
+* vendorId
+* serviceId
+* serviceTitle
+* price
+* bookingDate
+* bookingTime
+* location
+* status (pending, confirmed, cancelled)
 
 ---
 
 # 🔄 Booking Flow
 
 ```text
-Vendor
-      │
-      │ Creates Service
-      ▼
- Service Database
-      │
-      │
-      ▼
+Vendor Creates Service
+          │
+          ▼
+   Service Database
+          │
+          ▼
 Customer Selects Service
-      │
-      ▼
-Booking Request
-      │
-      ▼
-Status = Pending
-      │
-      ▼
-Vendor Action
+          │
+          ▼
+    Booking Request
+          │
+          ▼
+   Status = Pending
+          │
+          ▼
+    Vendor Action
       ├── Confirm
-      ├── Reject
-      └── Complete
+      └── Cancel
+          │
+          ▼
+ Email Notification Sent
 ```
 
 ---
 
 # 🎯 Project Vision
 
-Book My Service aims to simplify the process of discovering and booking local services while providing vendors with an easy platform to manage their services and booking requests through a secure and scalable architecture.
+Book My Service aims to simplify the process of discovering and booking local services while providing vendors with an easy platform to manage services and booking requests through a secure and scalable architecture.
 
 ---
 
 # 🚀 Current Progress
 
-- ✅ Authentication Module
-- ✅ JWT Authorization
-- ✅ Role-Based Access
-- ✅ Service CRUD APIs
-- ✅ Booking Module
-- ✅ Slot Validation Logic
-- 🚧 Frontend Integration
-- 🚧 Vendor Booking Management
-- 🚧 AI Chat Assistant
-- 🚧 Email Notifications
+* ✅ Authentication Module
+* ✅ JWT Authorization
+* ✅ Role-Based Access Control
+* ✅ Service CRUD APIs
+* ✅ Booking Module
+* ✅ Vendor Booking Management
+* ✅ Slot Validation Logic
+* ✅ Email Notifications
+* ✅ Frontend Authentication Integration
+* ✅ Redux User Management
+* ✅ Persistent Login (localStorage)
+* 🚧 Dynamic Service Integration
+* 🚧 Dashboard Development
+* 🚧 AI Chat Assistant
 
 ---
 
 # 🔮 Upcoming Features
 
-- AI Chatbot
-- Nodemailer Integration
-- Booking Confirmation Emails
-- Customer Dashboard
-- Vendor Dashboard
-- Reviews & Ratings
-- Search & Filters
-- Deployment
+* Dynamic Services Page
+* Service Details Integration
+* Customer Dashboard
+* Vendor Dashboard
+* Reviews & Ratings
+* Search & Filters
+* AI Chat Assistant
+* Service Categories
+* Deployment
+* Responsive UI Improvements
 
 ---
 

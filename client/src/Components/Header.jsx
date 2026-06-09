@@ -1,58 +1,84 @@
 import React from "react";
 import logo from "../assets/logo.png";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import { removeUser } from "../redux/userSlice";
 
 const Header = () => {
+  const user = useSelector((store) => store.user.user);
+  const dispatch = useDispatch()
+  const navLinkClass = ({ isActive }) =>
+    `${
+      isActive ? "text-blue-600 font-bold" : "text-gray-700"
+    } hover:text-blue-600 transition`;
+    const handleLogout = () => {
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+      dispatch(removeUser());
+    };
   return (
     <header className="sticky top-0 z-50 bg-white shadow-md">
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-3">
-        <div className="flex items-center gap-2 cursor-pointer">
-          <Link to="/">
+        <div className="flex items-center gap-2">
+          <NavLink to="/" className="flex items-center gap-2">
             <img src={logo} alt="logo" className="h-14 w-14 object-cover" />
-          </Link>
-          <Link to="/">
             <h1 className="text-xl font-bold text-blue-600">BookMyService</h1>
-          </Link>
+          </NavLink>
         </div>
-        <ul className="hidden md:flex items-center gap-8 font-medium text-gray-700">
-          <li className="hover:text-blue-600 cursor-pointer transition">
-            Home
-          </li>
-          <Link to="/services">
-            <li className="hover:text-blue-600 cursor-pointer transition">
-              Services
-            </li>
-          </Link>
-          <Link to="/categories">
-            <li className="hover:text-blue-600 cursor-pointer transition">
-              Categories
-            </li>
-          </Link>
 
-          <li className="hover:text-blue-600 cursor-pointer transition">
-            Vendors
+        <ul className="hidden md:flex items-center gap-8 font-medium">
+          <li>
+            <NavLink to="/" className={navLinkClass}>
+              Home
+            </NavLink>
           </li>
-          <li className="hover:text-blue-600 cursor-pointer transition">
-            About
+
+          <li>
+            <NavLink to="/services" className={navLinkClass}>
+              Services
+            </NavLink>
           </li>
-          <Link to="/my-bookings">
-            <li className="hover:text-blue-600 cursor-pointer transition">
+
+          <li>
+            <NavLink to="/vendors" className={navLinkClass}>
+              Vendors
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink to="/about" className={navLinkClass}>
+              About
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink to="/my-bookings" className={navLinkClass}>
               My Bookings
-            </li>
-          </Link>
+            </NavLink>
+          </li>
         </ul>
 
         <div className="flex items-center gap-4">
-          <Link to="/login">
-            <button className="text-gray-700 font-medium hover:text-blue-600 transition">
-              Login
+          {user ? (
+            <button
+              className="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg transition"
+              onClick={handleLogout}
+            >
+              Logout
             </button>
-          </Link>
-          <Link to="/signup">
-            <button className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg transition">
-              Signup
-            </button>
-          </Link>
+          ) : (
+            <>
+              <NavLink to="/login" className={navLinkClass}>
+                <button className="font-medium">Login</button>
+              </NavLink>
+
+              <NavLink to="/signup">
+                <button className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg transition">
+                  Signup
+                </button>
+              </NavLink>
+            </>
+          )}
         </div>
       </div>
     </header>

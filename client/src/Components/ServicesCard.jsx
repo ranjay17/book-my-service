@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const ServicesCard = ({ id, title, rating, img, location, vendor, price }) => {
   return (
@@ -24,11 +24,16 @@ const ServicesCard = ({ id, title, rating, img, location, vendor, price }) => {
         <p className="text-gray-500 text-sm mt-1">📍 {location}</p>
         <div className="flex items-center justify-between mt-5">
           <h3 className="text-2xl font-bold text-blue-600">₹{price}</h3>
-          <Link to={`/service/${id}`}>
+          <NavLink
+            to={`/service/${id}`}
+            className={({ isActive }) =>
+              isActive ? "text-blue-500 font-bold" : "text-gray-500"
+            }
+          >
             <button className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg transition">
               Book Now
             </button>
-          </Link>
+          </NavLink>
         </div>
       </div>
     </div>

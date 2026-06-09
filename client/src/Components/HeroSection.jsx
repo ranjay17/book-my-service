@@ -1,11 +1,8 @@
 import React from "react";
 import Hero from "../assets/bg.png";
-import popularServices from "../utils/popularServices";
 
-const HeroSection = ({ searchServices, setSearchServices }) => {
-  const handleSearchService = () =>{
-    const services = popularServices.filter((p)=>p.title.toLowerCase().includes(searchServices))
-  }
+const HeroSection = () => {
+  
   return (
     <div className="relative h-screen w-full overflow-hidden">
       <div className="absolute inset-0">
@@ -28,12 +25,9 @@ const HeroSection = ({ searchServices, setSearchServices }) => {
             type="text"
             placeholder="Describe the service you need..."
             className="flex-1 outline-none text-gray-700 px-3 py-2"
-            value={searchServices}
-            onChange={(e) => setSearchServices(e.target.value)}
           />
           <button
             className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition"
-            onClick={handleSearchService}
           >
             Search
           </button>
