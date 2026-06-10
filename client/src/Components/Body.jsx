@@ -3,9 +3,16 @@ import HeroSection from "./HeroSection";
 import popularServices from "../utils/popularServices";
 import ServicesCard from "./ServicesCard";
 import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
+import VendorDashboard from "./VendorDashboard";
 
 const Body = () => {
   const featuredServices = popularServices.slice(0, 4);
+  const user = useSelector((store) => store.user.user);
+
+  if (user?.role === "vendor") {
+    return <VendorDashboard />;
+  }
 
   return (
     <div>
