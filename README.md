@@ -15,6 +15,8 @@ Customers can discover and book services, while vendors can create, manage, and 
 * ✅ User Registration
 * ✅ User Login
 * ✅ JWT Authentication
+* ✅ Frontend Authentication
+* ✅ Persistent Login using localStorage
 * ✅ Browse Available Services
 * ✅ View Service Details
 * ✅ Book a Service
@@ -29,13 +31,16 @@ Customers can discover and book services, while vendors can create, manage, and 
 
 * ✅ Vendor Registration
 * ✅ Vendor Login
+* ✅ Vendor Dashboard (Frontend)
+* ✅ Dedicated Vendor Header
 * ✅ Create Service
-* ✅ Update Service
-* ✅ Delete Service
+* ✅ View Created Services
+* ✅ Update Service API
+* ✅ Delete Service API
 * ✅ View Booking Requests
 * ✅ Confirm Booking Requests
 * ✅ Cancel Booking Requests
-* 🚧 Vendor Dashboard
+* 🚧 Dynamic Vendor Dashboard Analytics
 
 ---
 
@@ -56,7 +61,9 @@ Powered by **Nodemailer**
 * ✅ Protected Routes
 * ✅ Password Hashing using bcrypt
 * ✅ Frontend Authentication Integration
-* ✅ Persistent Login using Redux + localStorage
+* ✅ Redux User State
+* ✅ Persistent Login using localStorage
+* ✅ Dynamic UI based on User Role
 
 ---
 
@@ -103,8 +110,8 @@ Powered by **Nodemailer**
 
 ## Authentication Module
 
-* ✅ Signup Page Integrated
-* ✅ Login Page Integrated
+* ✅ Signup Page
+* ✅ Login Page
 * ✅ Redux User State
 * ✅ localStorage Persistence
 * ✅ Auto Login After Refresh
@@ -112,23 +119,49 @@ Powered by **Nodemailer**
 
 ---
 
+## Vendor Module
+
+* ✅ Dedicated Vendor Header
+* ✅ Static Vendor Dashboard UI
+* ✅ Create Service Form
+* ✅ Vendor Services Page
+* ✅ Fetch Vendor Services using Redux
+* 🚧 Dynamic Dashboard Statistics
+
+---
+
 ## Service Module
 
-* Service Cards
-* Service Details Page
-* Booking Interface
-* Date Selection
-* Time Slot Selection
+* ✅ Service Creation
+* ✅ View Vendor Services
+* 🚧 Dynamic Public Services Page
+* 🚧 Service Details Page
+* 🚧 Booking Interface
+* 🚧 Date Selection
+* 🚧 Time Slot Selection
 
 ---
 
 ## State Management
 
 * Redux Toolkit
-* User Slice
-* Booking Slice
-* Authentication State
-* Persistent User Session
+
+### User Slice
+
+* Add User
+* Remove User
+* Persistent Session
+
+### Service Slice
+
+* Add Service
+* Get All Services
+* Update Service
+* Remove Service
+
+### Booking Slice
+
+* Booking Management
 
 ---
 
@@ -269,8 +302,11 @@ Book My Service aims to simplify the process of discovering and booking local se
 * ✅ Frontend Authentication Integration
 * ✅ Redux User Management
 * ✅ Persistent Login (localStorage)
+* ✅ Vendor Dashboard UI
+* ✅ Vendor Create Service
+* ✅ Vendor View Services
 * 🚧 Dynamic Service Integration
-* 🚧 Dashboard Development
+* 🚧 Dynamic Dashboard Analytics
 * 🚧 AI Chat Assistant
 
 ---
@@ -280,7 +316,7 @@ Book My Service aims to simplify the process of discovering and booking local se
 * Dynamic Services Page
 * Service Details Integration
 * Customer Dashboard
-* Vendor Dashboard
+* Dynamic Vendor Dashboard
 * Reviews & Ratings
 * Search & Filters
 * AI Chat Assistant

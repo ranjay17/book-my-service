@@ -6,6 +6,9 @@ import Login from "../Pages/Login.jsx";
 import Services from "../Pages/Services.jsx";
 import ServiceDetail from "../Pages/ServiceDetail.jsx";
 import MyBooking from "../Pages/MyBooking.jsx";
+import VendorDashboard from "../Components/VendorDashboard.jsx";
+import CreateService from "../Pages/CreateService.jsx";
+import VendorServices from "../Pages/VendorServices.jsx";
 
 const appRouter = createBrowserRouter([
   {
@@ -30,11 +33,23 @@ const appRouter = createBrowserRouter([
       },
       {
         path: "/service/:id",
-        element: <ServiceDetail />
+        element: <ServiceDetail />,
       },
       {
         path: "/my-bookings",
-        element: <MyBooking />
+        element: <MyBooking />,
+      },
+      {
+        path: "/vendor/dashboard",
+        element: <VendorDashboard />,
+      },
+      {
+        path: "/vendor/create-service",
+        element: <CreateService />
+      },
+      {
+        path: '/vendor/services',
+        element: <VendorServices />
       }
     ],
   },

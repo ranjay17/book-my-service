@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use('/user', userRouter);
-app.use('/service', serviceRouter);
+app.use('/vendor', serviceRouter);
 app.use('/api', bookingRouter);
 app.use('/api', vendorRouter);
 

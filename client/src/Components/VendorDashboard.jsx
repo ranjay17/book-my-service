@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 const VendorDashboard = () => {
   return (
@@ -39,9 +40,11 @@ const VendorDashboard = () => {
         <h2 className="text-2xl font-bold mb-4">Quick Actions</h2>
 
         <div className="flex flex-wrap gap-4">
-          <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg">
-            + Create Service
-          </button>
+          <NavLink to='/vendor/create-service'>
+            <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg">
+              + Create Service
+            </button>
+          </NavLink>
 
           <button className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg">
             View My Services
