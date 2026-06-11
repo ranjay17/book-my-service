@@ -9,6 +9,7 @@ import MyBooking from "../Pages/MyBooking.jsx";
 import VendorDashboard from "../Components/VendorDashboard.jsx";
 import CreateService from "../Pages/CreateService.jsx";
 import VendorServices from "../Pages/VendorServices.jsx";
+import EditServiceForm from "../Pages/EditServiceForm.jsx";
 
 const appRouter = createBrowserRouter([
   {
@@ -50,6 +51,10 @@ const appRouter = createBrowserRouter([
       {
         path: '/vendor/services',
         element: <VendorServices />
+      },
+      {
+        path: '/vendor/edit-service/:id',
+        element: <EditServiceForm />
       }
     ],
   },

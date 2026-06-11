@@ -1,12 +1,13 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllService } from "../redux/serviceSlice";
+import { getAllService, removeService } from "../redux/serviceSlice";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const VendorServices = () => {
   const services = useSelector((store) => store.service.service);
   const dispatch = useDispatch();
-
+  const navigate = useNavigate()
   useEffect(() => {
     fetchServices();
   }, []);
@@ -27,7 +28,26 @@ const VendorServices = () => {
       console.log(error);
     }
   };
-
+  const handleDelete = async(id) =>{
+    try {
+      const response = await axios.delete(
+        `http://localhost:8000/vendor/delete-service/${id}`,
+         {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+      ); 
+       if (response.status === 200) {
+         dispatch(removeService(id));
+         alert("Service deleted successfully");
+          navigate("/vendor/dashboard");
+       } 
+    } catch (error) {
+      alert("Service not deleted");
+      console.log("error in deleting service:", error)
+    }  
+  }
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="max-w-7xl mx-auto">
@@ -60,11 +80,9 @@ const VendorServices = () => {
 
                 <div className="p-5">
                   <h2 className="text-2xl font-bold">{service.title}</h2>
-
                   <p className="text-gray-500 mt-2 line-clamp-3">
                     {service.description}
                   </p>
-
                   <div className="mt-4 space-y-2">
                     <p>
                       <span className="font-semibold">Category:</span>{" "}
@@ -80,14 +98,18 @@ const VendorServices = () => {
                       ₹{service.price}
                     </p>
                   </div>
+                  <div className="grid grid-cols-2 gap-3 mt-6">
+                    <NavLink to={`/vendor/edit-service/${service._id}`}>
+                      <button className="w-full bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-white font-semibold py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-200">
+                        ✏️ Edit
+                      </button>
+                    </NavLink>
 
-                  <div className="flex gap-3 mt-6">
-                    <button className="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white py-2 rounded-lg">
-                      Edit
-                    </button>
-
-                    <button className="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg">
-                      Delete
+                    <button
+                      onClick={() => handleDelete(service._id)}
+                      className="w-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-200"
+                    >
+                      🗑️ Delete
                     </button>
                   </div>
                 </div>

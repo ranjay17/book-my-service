@@ -2,7 +2,7 @@
 
 A Full Stack **MERN** application that connects **customers** with **local service providers** such as salons, photographers, electricians, plumbers, cleaners, and more.
 
-Customers can discover and book services, while vendors can create, manage, and receive booking requests through a secure role-based platform.
+Customers can discover and book services, while vendors can create, manage, edit, and receive booking requests through a secure role-based platform.
 
 > 🚧 **Project Status:** Under Active Development
 
@@ -31,12 +31,12 @@ Customers can discover and book services, while vendors can create, manage, and 
 
 * ✅ Vendor Registration
 * ✅ Vendor Login
-* ✅ Vendor Dashboard (Frontend)
+* ✅ Dedicated Vendor Dashboard
 * ✅ Dedicated Vendor Header
 * ✅ Create Service
-* ✅ View Created Services
-* ✅ Update Service API
-* ✅ Delete Service API
+* ✅ View Own Services
+* ✅ Edit Service
+* ✅ Delete Service
 * ✅ View Booking Requests
 * ✅ Confirm Booking Requests
 * ✅ Cancel Booking Requests
@@ -122,9 +122,11 @@ Powered by **Nodemailer**
 ## Vendor Module
 
 * ✅ Dedicated Vendor Header
-* ✅ Static Vendor Dashboard UI
+* ✅ Vendor Dashboard UI
 * ✅ Create Service Form
 * ✅ Vendor Services Page
+* ✅ Edit Service Form
+* ✅ Delete Service Functionality
 * ✅ Fetch Vendor Services using Redux
 * 🚧 Dynamic Dashboard Statistics
 
@@ -134,6 +136,8 @@ Powered by **Nodemailer**
 
 * ✅ Service Creation
 * ✅ View Vendor Services
+* ✅ Edit Vendor Services
+* ✅ Delete Vendor Services
 * 🚧 Dynamic Public Services Page
 * 🚧 Service Details Page
 * 🚧 Booking Interface
@@ -144,22 +148,22 @@ Powered by **Nodemailer**
 
 ## State Management
 
-* Redux Toolkit
+### Redux Toolkit
 
-### User Slice
+#### User Slice
 
 * Add User
 * Remove User
 * Persistent Session
 
-### Service Slice
+#### Service Slice
 
 * Add Service
 * Get All Services
 * Update Service
 * Remove Service
 
-### Booking Slice
+#### Booking Slice
 
 * Booking Management
 
@@ -189,106 +193,6 @@ Powered by **Nodemailer**
 
 ---
 
-# 📂 Project Structure
-
-```text
-Book-My-Service/
-
-├── client/
-│   ├── src/
-│   ├── components/
-│   ├── pages/
-│   ├── redux/
-│   └── routing/
-
-├── backend/
-│   ├── config/
-│   ├── controllers/
-│   ├── middleware/
-│   ├── models/
-│   ├── routes/
-│   ├── utils/
-│   └── index.js
-
-├── .gitignore
-
-└── README.md
-```
-
----
-
-# 🗄 Database Models
-
-## User
-
-* name
-* email
-* phone
-* password
-* role (user/vendor)
-
----
-
-## Service
-
-* title
-* description
-* price
-* image
-* category
-* vendorId
-* location
-
----
-
-## Booking
-
-* userId
-* vendorId
-* serviceId
-* serviceTitle
-* price
-* bookingDate
-* bookingTime
-* location
-* status (pending, confirmed, cancelled)
-
----
-
-# 🔄 Booking Flow
-
-```text
-Vendor Creates Service
-          │
-          ▼
-   Service Database
-          │
-          ▼
-Customer Selects Service
-          │
-          ▼
-    Booking Request
-          │
-          ▼
-   Status = Pending
-          │
-          ▼
-    Vendor Action
-      ├── Confirm
-      └── Cancel
-          │
-          ▼
- Email Notification Sent
-```
-
----
-
-# 🎯 Project Vision
-
-Book My Service aims to simplify the process of discovering and booking local services while providing vendors with an easy platform to manage services and booking requests through a secure and scalable architecture.
-
----
-
 # 🚀 Current Progress
 
 * ✅ Authentication Module
@@ -301,11 +205,12 @@ Book My Service aims to simplify the process of discovering and booking local se
 * ✅ Email Notifications
 * ✅ Frontend Authentication Integration
 * ✅ Redux User Management
-* ✅ Persistent Login (localStorage)
+* ✅ Persistent Login
 * ✅ Vendor Dashboard UI
 * ✅ Vendor Create Service
 * ✅ Vendor View Services
-* 🚧 Dynamic Service Integration
+* ✅ Vendor Edit Service
+* ✅ Vendor Delete Service
 * 🚧 Dynamic Dashboard Analytics
 * 🚧 AI Chat Assistant
 
