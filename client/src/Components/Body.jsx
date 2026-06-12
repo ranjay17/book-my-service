@@ -1,28 +1,36 @@
-import React from "react";
+import React, { useEffect } from "react";
 import HeroSection from "./HeroSection";
-import popularServices from "../utils/popularServices";
 import ServicesCard from "./ServicesCard";
 import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import VendorDashboard from "./VendorDashboard";
+import axios from "axios";
+import { getAllService } from "../redux/serviceSlice";
 
 const Body = () => {
-  const featuredServices = popularServices.slice(0, 4);
+  const dispatch = useDispatch();
+  const service = useSelector((store)=>store.service.service);
+  useEffect(() => {
+    fetchAllService();
+  }, []);
+  const fetchAllService = async() =>{
+    const response = await axios.get(
+      "http://localhost:8000/vendor/all-service",
+    );
+    dispatch(getAllService(response.data.services))
+  }
+  const featuredServices = service.slice(0, 4);
   const user = useSelector((store) => store.user.user);
 
   if (user?.role === "vendor") {
     return <VendorDashboard />;
   }
-
+  
   return (
     <div>
       <HeroSection />
       <div className="py-20 px-6 bg-gray-50">
         <div className="text-center mb-14">
-          <h1 className="text-4xl font-bold text-gray-800">
-            Explore Categories
-          </h1>
-
           <p className="text-gray-500 mt-3 text-lg">
             Choose from a wide range of trusted services.
           </p>
@@ -34,10 +42,10 @@ const Body = () => {
               key={s.id}
               id={s.id}
               title={s.title}
-              rating={s.rating}
+              rating={s.rating || 4.8}
               img={s.image}
               location={s.location}
-              vendor={s.vendor}
+              vendor={s.vendorId.name || "Service Provider"}
               price={s.price}
             />
           ))}

@@ -17,12 +17,13 @@ Customers can discover and book services, while vendors can create, manage, edit
 * ✅ JWT Authentication
 * ✅ Frontend Authentication
 * ✅ Persistent Login using localStorage
-* ✅ Browse Available Services
+* ✅ Browse Dynamic Services
 * ✅ View Service Details
 * ✅ Book a Service
 * ✅ Prevent Duplicate Slot Booking
 * ✅ Cancel Booking
 * ✅ View My Bookings
+* 🚧 Reviews & Ratings
 * 🚧 AI Chat Assistant
 
 ---
@@ -37,10 +38,11 @@ Customers can discover and book services, while vendors can create, manage, edit
 * ✅ View Own Services
 * ✅ Edit Service
 * ✅ Delete Service
+* ✅ Dynamic Service Management (MongoDB)
 * ✅ View Booking Requests
 * ✅ Confirm Booking Requests
 * ✅ Cancel Booking Requests
-* 🚧 Dynamic Vendor Dashboard Analytics
+* 🚧 Dynamic Dashboard Analytics
 
 ---
 
@@ -78,23 +80,25 @@ Powered by **Nodemailer**
 
 ## Service APIs
 
-* Create Service
-* Get All Services
-* Get Particular Service
-* Update Service
-* Delete Service
+* ✅ Create Service
+* ✅ Get All Services
+* ✅ Get Particular Service
+* ✅ Update Service
+* ✅ Delete Service
+
+Services are now fetched dynamically from MongoDB instead of using static frontend data.
 
 ---
 
 ## Booking APIs
 
-* Create Booking
-* Get User Bookings
-* Cancel Booking
-* Get Vendor Bookings
-* Confirm Booking
-* Cancel Booking (Vendor)
-* Slot Availability Validation
+* ✅ Create Booking
+* ✅ Get User Bookings
+* ✅ Cancel Booking
+* ✅ Get Vendor Bookings
+* ✅ Confirm Booking
+* ✅ Cancel Booking (Vendor)
+* ✅ Slot Availability Validation
 
 ---
 
@@ -103,7 +107,7 @@ Powered by **Nodemailer**
 ## Home Page
 
 * Responsive Hero Section
-* Popular Services Section
+* Dynamic Featured Services
 * Modern UI
 
 ---
@@ -127,43 +131,47 @@ Powered by **Nodemailer**
 * ✅ Vendor Services Page
 * ✅ Edit Service Form
 * ✅ Delete Service Functionality
-* ✅ Fetch Vendor Services using Redux
+* ✅ Dynamic Service Fetching
+* ✅ Redux Service Management
 * 🚧 Dynamic Dashboard Statistics
 
 ---
 
 ## Service Module
 
+* ✅ Dynamic Services Page
+* ✅ Dynamic Service Cards
+* ✅ MongoDB Integration
 * ✅ Service Creation
 * ✅ View Vendor Services
 * ✅ Edit Vendor Services
 * ✅ Delete Vendor Services
-* 🚧 Dynamic Public Services Page
 * 🚧 Service Details Page
 * 🚧 Booking Interface
 * 🚧 Date Selection
 * 🚧 Time Slot Selection
+* 🚧 Reviews & Ratings
 
 ---
 
-## State Management
+# 🗂 State Management
 
-### Redux Toolkit
+## Redux Toolkit
 
-#### User Slice
+### User Slice
 
 * Add User
 * Remove User
 * Persistent Session
 
-#### Service Slice
+### Service Slice
 
 * Add Service
 * Get All Services
 * Update Service
 * Remove Service
 
-#### Booking Slice
+### Booking Slice
 
 * Booking Management
 
@@ -199,6 +207,8 @@ Powered by **Nodemailer**
 * ✅ JWT Authorization
 * ✅ Role-Based Access Control
 * ✅ Service CRUD APIs
+* ✅ Dynamic MongoDB Services
+* ✅ Redux Service Management
 * ✅ Booking Module
 * ✅ Vendor Booking Management
 * ✅ Slot Validation Logic
@@ -211,18 +221,18 @@ Powered by **Nodemailer**
 * ✅ Vendor View Services
 * ✅ Vendor Edit Service
 * ✅ Vendor Delete Service
-* 🚧 Dynamic Dashboard Analytics
+* 🚧 Dynamic Vendor Dashboard Analytics
+* 🚧 Reviews & Ratings
 * 🚧 AI Chat Assistant
 
 ---
 
 # 🔮 Upcoming Features
 
-* Dynamic Services Page
-* Service Details Integration
+* Dynamic Service Details Page
 * Customer Dashboard
 * Dynamic Vendor Dashboard
-* Reviews & Ratings
+* Reviews & Ratings System
 * Search & Filters
 * AI Chat Assistant
 * Service Categories

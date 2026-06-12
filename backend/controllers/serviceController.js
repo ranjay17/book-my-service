@@ -29,7 +29,7 @@ export const createService = async(req,res) =>{
 
 export const getAllServices = async(req,res) =>{
     try {
-        const services = await Service.find();
+        const services = await Service.find().populate("vendorId", "name");
         return res.status(200).json({services})
     } catch (error) {
         return res.status(500).json({message: error.message})
