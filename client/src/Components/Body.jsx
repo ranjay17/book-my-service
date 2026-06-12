@@ -39,8 +39,8 @@ const Body = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
           {featuredServices.map((s) => (
             <ServicesCard
-              key={s.id}
-              id={s.id}
+              key={s._id}
+              id={s._id}
               title={s.title}
               rating={s.rating || 4.8}
               img={s.image}
