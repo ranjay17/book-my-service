@@ -44,22 +44,6 @@ const ServiceDetail = () => {
           },
         },
       );
-
-      // Update Redux state
-      dispatch(
-        addBooking({
-          _id: response.data.booking._id,
-          serviceId: service._id,
-          title: service.title,
-          vendor: service.vendorId?.name || "Service Provider",
-          price: service.price,
-          image: service.image,
-          date: selectDate,
-          time: selectTime,
-          status: response.data.booking.status,
-        }),
-      );
-
       alert(response.data.message);
       navigate("/my-bookings");
     } catch (error) {

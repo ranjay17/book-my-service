@@ -1,50 +1,114 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 const MyBooking = () => {
-  const bookings = useSelector((store) => store.booking.booking);
+  const [bookings, setBookings] = useState([]);
+
+  useEffect(() => {
+    fetchBookings();
+  }, []);
+
+  const fetchBookings = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8000/api/all-booking",
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        },
+      );
+
+      setBookings(response.data.booking);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleCancel = async (id) => {
+    try {
+      const response = await axios.patch(
+        `http://localhost:8000/api/cancel-booking/${id}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        },
+      );
+
+      alert(response.data.message);
+
+      fetchBookings();
+    } catch (error) {
+      alert(error.response?.data?.message || "Unable to cancel booking");
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
+    <div className="min-h-screen bg-gray-100 py-10 px-6">
       <h1 className="text-4xl font-bold text-center mb-10">My Bookings</h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-        {bookings.length === 0 ? (
-          <h1 className="text-3xl font-bold text-gray-500">No Bookings Yet</h1>
-        ) : (
-          bookings.map((booking) => (
+      {bookings.length === 0 ? (
+        <div className="text-center mt-20">
+          <h2 className="text-3xl font-bold text-gray-500">No Bookings Yet</h2>
+        </div>
+      ) : (
+        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
+          {bookings.map((booking) => (
             <div
-              key={booking.id}
+              key={booking._id}
               className="bg-white rounded-2xl shadow-lg overflow-hidden"
             >
-              <img
-                src={booking.image}
-                alt={booking.title}
-                className="w-full h-56 object-cover"
-              />
+              <div className="p-6">
+                <div className="flex justify-between">
+                  <h2 className="text-2xl font-bold">{booking.serviceTitle}</h2>
 
-              <div className="p-5">
-                <h2 className="text-2xl font-bold">{booking.title}</h2>
+                  <span
+                    className={`px-4 py-2 rounded-full text-sm font-semibold
+                    ${
+                      booking.status === "pending"
+                        ? "bg-yellow-100 text-yellow-700"
+                        : booking.status === "confirmed"
+                          ? "bg-green-100 text-green-700"
+                          : "bg-red-100 text-red-700"
+                    }`}
+                  >
+                    {booking.status}
+                  </span>
+                </div>
 
-                <p className="text-gray-600 mt-2">Vendor: {booking.vendor}</p>
+                <div className="mt-5 space-y-2">
+                  <p>
+                    <b>Date :</b> {booking.bookingDate}
+                  </p>
 
-                <p className="text-gray-600">Date: {booking.date}</p>
+                  <p>
+                    <b>Time :</b> {booking.bookingTime}
+                  </p>
 
-                <p className="text-gray-600">Time: {booking.time}</p>
+                  <p>
+                    <b>Location :</b> {booking.location}
+                  </p>
 
-                <p className="text-blue-600 font-bold text-xl mt-3">
-                  ₹{booking.price}
-                </p>
+                  <p className="text-blue-600 font-bold text-xl">
+                    ₹{booking.price}
+                  </p>
+                </div>
 
-                <span className="inline-block mt-4 bg-green-100 text-green-700 px-4 py-2 rounded-full font-medium">
-                  {booking.status}
-                </span>
+                {booking.status !== "cancelled" && (
+                  <button
+                    onClick={() => handleCancel(booking._id)}
+                    className="mt-6 w-full bg-red-500 hover:bg-red-600 text-white py-3 rounded-lg"
+                  >
+                    Cancel Booking
+                  </button>
+                )}
               </div>
             </div>
-          ))
-        )}
-        {}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
