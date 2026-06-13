@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 const MyBooking = () => {
-  const bookings = useSelector((store) => store.booking);
+  const bookings = useSelector((store) => store.booking.booking);
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">

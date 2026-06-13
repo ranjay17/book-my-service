@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import popularServices from "../utils/popularServices";
-import { useDispatch } from "react-redux";
+//import popularServices from "../utils/popularServices";
+import { useDispatch, useSelector } from "react-redux";
 import { addBooking } from "../redux/bookingSlice";
+import axios from "axios";
 
 const ServiceDetail = () => {
   const[selectDate, setSelectData] = useState("");
@@ -11,7 +12,8 @@ const ServiceDetail = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate()
 
-  const service = popularServices.find((s) => s.id === Number(id));
+  const services = useSelector((store)=>store.service.service);
+  const service = services.find((s) => s._id === id);
 
   if (!service) {
     return (
@@ -21,27 +23,57 @@ const ServiceDetail = () => {
     );
   }
 
-  const handleBookService = () => {
-     dispatch(
-       addBooking({
-         serviceId: service.id,
-         title: service.title,
-         vendor: service.vendor,
-         price: service.price,
-         image: service.image,
-         date: selectDate,
-         time: selectTime,
-         status: "Confirmed",
-       }),
-     );
-
+  const handleBookService = async () => {
+    // Validate input
     if (!selectDate || !selectTime) {
       alert("Please select date and time slot");
       return;
     }
 
-    alert(`${service.title} confirmed on ${selectDate} at ${selectTime}`);
-    navigate("/my-bookings");
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/api/create-booking",
+        {
+          serviceId: service._id,
+          bookingDate: selectDate,
+          bookingTime: selectTime,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        },
+      );
+
+      // Update Redux state
+      dispatch(
+        addBooking({
+          _id: response.data.booking._id,
+          serviceId: service._id,
+          title: service.title,
+          vendor: service.vendorId?.name || "Service Provider",
+          price: service.price,
+          image: service.image,
+          date: selectDate,
+          time: selectTime,
+          status: response.data.booking.status,
+        }),
+      );
+
+      alert(response.data.message);
+      navigate("/my-bookings");
+    } catch (error) {
+      console.log(error);
+
+      if (error.response?.status === 403) {
+        alert("Session expired. Please login again.");
+        localStorage.removeItem("token");
+        navigate("/login");
+        return;
+      }
+
+      alert(error.response?.data?.message || "Booking failed");
+    }
   };
 
   return (
@@ -63,7 +95,7 @@ const ServiceDetail = () => {
             </h1>
 
             <span className="bg-yellow-100 text-yellow-700 px-4 py-2 rounded-full font-semibold">
-              ⭐ {service.rating}
+              ⭐ {service.rating || 4.8}
             </span>
           </div>
 
@@ -71,7 +103,7 @@ const ServiceDetail = () => {
           <p className="mt-4 text-lg text-gray-600">
             Vendor:
             <span className="font-semibold text-gray-800 ml-2">
-              {service.vendor}
+              {service.vendorId.name}
             </span>
           </p>
 
@@ -104,7 +136,7 @@ const ServiceDetail = () => {
               <input
                 type="date"
                 value={selectDate}
-                onChange={(e)=>setSelectData(e.target.value)}
+                onChange={(e) => setSelectData(e.target.value)}
                 className="border border-gray-300 px-4 py-3 rounded-lg w-fit focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
 
@@ -154,8 +186,9 @@ const ServiceDetail = () => {
 
           {/* Book Button */}
           <div className="mt-10">
-            <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg text-lg font-medium transition"
-            onClick={handleBookService}
+            <button
+              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg text-lg font-medium transition"
+              onClick={handleBookService}
             >
               Book Service
             </button>

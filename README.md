@@ -18,11 +18,12 @@ Customers can discover and book services, while vendors can create, manage, edit
 * ✅ Frontend Authentication
 * ✅ Persistent Login using localStorage
 * ✅ Browse Dynamic Services
-* ✅ View Service Details
+* ✅ View Dynamic Service Details
 * ✅ Book a Service
 * ✅ Prevent Duplicate Slot Booking
 * ✅ Cancel Booking
 * ✅ View My Bookings
+* ✅ Booking Request sent to Vendor
 * 🚧 Reviews & Ratings
 * 🚧 AI Chat Assistant
 
@@ -38,7 +39,7 @@ Customers can discover and book services, while vendors can create, manage, edit
 * ✅ View Own Services
 * ✅ Edit Service
 * ✅ Delete Service
-* ✅ Dynamic Service Management (MongoDB)
+* ✅ Dynamic Service Management using MongoDB
 * ✅ View Booking Requests
 * ✅ Confirm Booking Requests
 * ✅ Cancel Booking Requests
@@ -86,7 +87,7 @@ Powered by **Nodemailer**
 * ✅ Update Service
 * ✅ Delete Service
 
-Services are now fetched dynamically from MongoDB instead of using static frontend data.
+Services are fetched dynamically from **MongoDB** instead of static frontend data.
 
 ---
 
@@ -142,14 +143,10 @@ Services are now fetched dynamically from MongoDB instead of using static fronte
 * ✅ Dynamic Services Page
 * ✅ Dynamic Service Cards
 * ✅ MongoDB Integration
-* ✅ Service Creation
-* ✅ View Vendor Services
-* ✅ Edit Vendor Services
-* ✅ Delete Vendor Services
-* 🚧 Service Details Page
-* 🚧 Booking Interface
-* 🚧 Date Selection
-* 🚧 Time Slot Selection
+* ✅ Dynamic Service Detail Page
+* ✅ Booking Interface
+* ✅ Date Selection
+* ✅ Time Slot Selection
 * 🚧 Reviews & Ratings
 
 ---
@@ -173,7 +170,8 @@ Services are now fetched dynamically from MongoDB instead of using static fronte
 
 ### Booking Slice
 
-* Booking Management
+* Add Booking
+* Manage Booking State
 
 ---
 
@@ -221,6 +219,7 @@ Services are now fetched dynamically from MongoDB instead of using static fronte
 * ✅ Vendor View Services
 * ✅ Vendor Edit Service
 * ✅ Vendor Delete Service
+* ✅ Dynamic Service Details
 * 🚧 Dynamic Vendor Dashboard Analytics
 * 🚧 Reviews & Ratings
 * 🚧 AI Chat Assistant
@@ -229,7 +228,6 @@ Services are now fetched dynamically from MongoDB instead of using static fronte
 
 # 🔮 Upcoming Features
 
-* Dynamic Service Details Page
 * Customer Dashboard
 * Dynamic Vendor Dashboard
 * Reviews & Ratings System

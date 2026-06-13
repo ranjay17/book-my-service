@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const ServicesCard = ({ id, title, rating, img, location, vendor, price }) => {
   return (
