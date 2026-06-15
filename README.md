@@ -2,7 +2,7 @@
 
 A Full Stack **MERN** application that connects **customers** with **local service providers** such as salons, photographers, electricians, plumbers, cleaners, and more.
 
-Customers can discover and book services, while vendors can create, manage, edit, and receive booking requests through a secure role-based platform.
+Customers can discover and book services, while vendors can create, manage, edit, and respond to booking requests through a secure role-based platform.
 
 > 🚧 **Project Status:** Under Active Development
 
@@ -21,9 +21,10 @@ Customers can discover and book services, while vendors can create, manage, edit
 * ✅ View Dynamic Service Details
 * ✅ Book a Service
 * ✅ Prevent Duplicate Slot Booking
+* ✅ View My Bookings (Fetched from Backend)
 * ✅ Cancel Booking
-* ✅ View My Bookings
-* ✅ Booking Request sent to Vendor
+* ✅ Real-time Booking Status (Pending / Confirmed / Cancelled)
+* ✅ Booking Request Sent to Vendor
 * 🚧 Reviews & Ratings
 * 🚧 AI Chat Assistant
 
@@ -43,6 +44,7 @@ Customers can discover and book services, while vendors can create, manage, edit
 * ✅ View Booking Requests
 * ✅ Confirm Booking Requests
 * ✅ Cancel Booking Requests
+* ✅ Booking Status Updates
 * 🚧 Dynamic Dashboard Analytics
 
 ---
@@ -52,8 +54,8 @@ Customers can discover and book services, while vendors can create, manage, edit
 Powered by **Nodemailer**
 
 * ✅ Vendor receives an email when a new booking request is created
-* ✅ User receives an email when a booking is confirmed
-* ✅ User receives an email when a booking is cancelled by the vendor
+* ✅ User receives an email when the booking is confirmed
+* ✅ User receives an email when the booking is cancelled by the vendor
 
 ---
 
@@ -64,7 +66,6 @@ Powered by **Nodemailer**
 * ✅ Protected Routes
 * ✅ Password Hashing using bcrypt
 * ✅ Frontend Authentication Integration
-* ✅ Redux User State
 * ✅ Persistent Login using localStorage
 * ✅ Dynamic UI based on User Role
 
@@ -74,8 +75,8 @@ Powered by **Nodemailer**
 
 ## User APIs
 
-* Register User
-* Login User
+* ✅ Register User
+* ✅ Login User
 
 ---
 
@@ -95,9 +96,9 @@ Services are fetched dynamically from **MongoDB** instead of static frontend dat
 
 * ✅ Create Booking
 * ✅ Get User Bookings
-* ✅ Cancel Booking
+* ✅ Cancel Booking (User)
 * ✅ Get Vendor Bookings
-* ✅ Confirm Booking
+* ✅ Confirm Booking (Vendor)
 * ✅ Cancel Booking (Vendor)
 * ✅ Slot Availability Validation
 
@@ -107,9 +108,9 @@ Services are fetched dynamically from **MongoDB** instead of static frontend dat
 
 ## Home Page
 
-* Responsive Hero Section
-* Dynamic Featured Services
-* Modern UI
+* ✅ Responsive Hero Section
+* ✅ Dynamic Featured Services
+* ✅ Modern UI
 
 ---
 
@@ -117,8 +118,7 @@ Services are fetched dynamically from **MongoDB** instead of static frontend dat
 
 * ✅ Signup Page
 * ✅ Login Page
-* ✅ Redux User State
-* ✅ localStorage Persistence
+* ✅ Persistent Login
 * ✅ Auto Login After Refresh
 * ✅ Dynamic Header (Login/Signup ↔ Logout)
 
@@ -127,13 +127,15 @@ Services are fetched dynamically from **MongoDB** instead of static frontend dat
 ## Vendor Module
 
 * ✅ Dedicated Vendor Header
-* ✅ Vendor Dashboard UI
-* ✅ Create Service Form
-* ✅ Vendor Services Page
-* ✅ Edit Service Form
-* ✅ Delete Service Functionality
+* ✅ Vendor Dashboard
+* ✅ Create Service
+* ✅ View Own Services
+* ✅ Edit Service
+* ✅ Delete Service
 * ✅ Dynamic Service Fetching
-* ✅ Redux Service Management
+* ✅ View Booking Requests
+* ✅ Confirm Booking
+* ✅ Cancel Booking
 * 🚧 Dynamic Dashboard Statistics
 
 ---
@@ -142,12 +144,22 @@ Services are fetched dynamically from **MongoDB** instead of static frontend dat
 
 * ✅ Dynamic Services Page
 * ✅ Dynamic Service Cards
-* ✅ MongoDB Integration
 * ✅ Dynamic Service Detail Page
 * ✅ Booking Interface
 * ✅ Date Selection
 * ✅ Time Slot Selection
+* ✅ Backend Booking Integration
+* ✅ Dynamic Booking Status
 * 🚧 Reviews & Ratings
+
+---
+
+## My Bookings
+
+* ✅ Fetch bookings from backend
+* ✅ Display booking status
+* ✅ Cancel booking functionality
+* ✅ Automatic status updates after vendor actions
 
 ---
 
@@ -157,21 +169,16 @@ Services are fetched dynamically from **MongoDB** instead of static frontend dat
 
 ### User Slice
 
-* Add User
-* Remove User
-* Persistent Session
+* ✅ Add User
+* ✅ Remove User
+* ✅ Persistent Session
 
 ### Service Slice
 
-* Add Service
-* Get All Services
-* Update Service
-* Remove Service
-
-### Booking Slice
-
-* Add Booking
-* Manage Booking State
+* ✅ Add Service
+* ✅ Get All Services
+* ✅ Update Service
+* ✅ Remove Service
 
 ---
 
@@ -201,35 +208,35 @@ Services are fetched dynamically from **MongoDB** instead of static frontend dat
 
 # 🚀 Current Progress
 
-* ✅ Authentication Module
-* ✅ JWT Authorization
-* ✅ Role-Based Access Control
+* ✅ JWT Authentication
+* ✅ Role-Based Authorization
 * ✅ Service CRUD APIs
 * ✅ Dynamic MongoDB Services
-* ✅ Redux Service Management
+* ✅ Dynamic Service Details
 * ✅ Booking Module
+* ✅ Backend Booking Storage
+* ✅ User Booking Management
 * ✅ Vendor Booking Management
+* ✅ Booking Confirmation Flow
+* ✅ Booking Cancellation Flow
 * ✅ Slot Validation Logic
 * ✅ Email Notifications
-* ✅ Frontend Authentication Integration
-* ✅ Redux User Management
 * ✅ Persistent Login
-* ✅ Vendor Dashboard UI
-* ✅ Vendor Create Service
-* ✅ Vendor View Services
-* ✅ Vendor Edit Service
-* ✅ Vendor Delete Service
-* ✅ Dynamic Service Details
-* 🚧 Dynamic Vendor Dashboard Analytics
-* 🚧 Reviews & Ratings
-* 🚧 AI Chat Assistant
+* ✅ Vendor Dashboard
+* ✅ Dynamic Booking Status
+
+🚧 In Progress
+
+* Dynamic Vendor Dashboard Analytics
+* Reviews & Ratings
+* AI Chat Assistant
 
 ---
 
 # 🔮 Upcoming Features
 
 * Customer Dashboard
-* Dynamic Vendor Dashboard
+* Dynamic Vendor Analytics
 * Reviews & Ratings System
 * Search & Filters
 * AI Chat Assistant

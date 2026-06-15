@@ -1,15 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-//import popularServices from "../utils/popularServices";
-import { useDispatch, useSelector } from "react-redux";
-import { addBooking } from "../redux/bookingSlice";
+import { useSelector } from "react-redux";
 import axios from "axios";
 
 const ServiceDetail = () => {
   const[selectDate, setSelectData] = useState("");
   const[selectTime, setSelectTime] = useState("");
   const { id } = useParams();
-  const dispatch = useDispatch();
   const navigate = useNavigate()
 
   const services = useSelector((store)=>store.service.service);
