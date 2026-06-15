@@ -37,8 +37,8 @@ const VendorDashboard = () => {
     .filter((booking) => booking.status === "confirmed")
     .reduce((sum, booking) => sum + booking.price, 0);
 
-  // Show only latest 5 bookings
-  const recentBookings = bookings.slice(0, 5);
+  // Show only latest 3 bookings
+  const recentBookings = bookings.slice(0, 3);
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">
@@ -96,7 +96,7 @@ const VendorDashboard = () => {
             </button>
           </NavLink>
 
-          <NavLink to="/vendor/pending-bookings">
+          <NavLink to="/vendor/bookings">
             <button className="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-lg">
               View Bookings
             </button>
@@ -110,7 +110,7 @@ const VendorDashboard = () => {
           <h2 className="text-2xl font-bold">Recent Bookings</h2>
 
           <NavLink
-            to="/vendor/pending-bookings"
+            to="/vendor/bookings"
             className="text-blue-600 font-semibold hover:underline"
           >
             View All →
@@ -157,6 +157,14 @@ const VendorDashboard = () => {
             ))}
           </div>
         )}
+      </div>
+
+      <div className="mt-6 flex justify-center">
+        <NavLink to="/vendor/bookings">
+          <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg">
+            View All Bookings
+          </button>
+        </NavLink>
       </div>
     </div>
   );

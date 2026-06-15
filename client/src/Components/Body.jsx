@@ -13,6 +13,7 @@ const Body = () => {
   useEffect(() => {
     fetchAllService();
   }, []);
+
   const fetchAllService = async() =>{
     const response = await axios.get(
       "http://localhost:8000/vendor/all-service",
@@ -25,7 +26,6 @@ const Body = () => {
   if (user?.role === "vendor") {
     return <VendorDashboard />;
   }
-  
   return (
     <div>
       <HeroSection />
@@ -35,7 +35,6 @@ const Body = () => {
             Choose from a wide range of trusted services.
           </p>
         </div>
-
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
           {featuredServices.map((s) => (
             <ServicesCard

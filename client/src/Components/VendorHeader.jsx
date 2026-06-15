@@ -22,15 +22,12 @@ const VendorHeader = () => {
   return (
     <header className="sticky top-0 z-50 bg-white shadow-md">
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-3">
-        {/* Logo */}
         <div className="flex items-center gap-2">
           <NavLink to="/vendor/dashboard" className="flex items-center gap-2">
             <img src={logo} alt="logo" className="h-14 w-14 object-cover" />
             <h1 className="text-xl font-bold text-blue-600">BookMyService</h1>
           </NavLink>
         </div>
-
-        {/* Navigation */}
         <ul className="hidden md:flex items-center gap-8 font-medium">
           <li>
             <NavLink to="/vendor/dashboard" className={navLinkClass}>
@@ -62,8 +59,6 @@ const VendorHeader = () => {
             </NavLink>
           </li>
         </ul>
-
-        {/* Right Side */}
         <div className="flex items-center gap-4">
           {user && (
             <button

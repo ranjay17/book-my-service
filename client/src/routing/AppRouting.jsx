@@ -47,20 +47,20 @@ const appRouter = createBrowserRouter([
       },
       {
         path: "/vendor/create-service",
-        element: <CreateService />
+        element: <CreateService />,
       },
       {
-        path: '/vendor/services',
-        element: <VendorServices />
+        path: "/vendor/services",
+        element: <VendorServices />,
       },
       {
-        path: '/vendor/edit-service/:id',
-        element: <EditServiceForm />
+        path: "/vendor/edit-service/:id",
+        element: <EditServiceForm />,
       },
       {
-        path:"/vendor/pending-bookings",
-        element: <VendorPendingBookings />
-      }
+        path: "/vendor/bookings",
+        element: <VendorPendingBookings />,
+      },
     ],
   },
 ]);

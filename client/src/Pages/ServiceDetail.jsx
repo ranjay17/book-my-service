@@ -21,7 +21,6 @@ const ServiceDetail = () => {
   }
 
   const handleBookService = async () => {
-    // Validate input
     if (!selectDate || !selectTime) {
       alert("Please select date and time slot");
       return;
@@ -60,16 +59,12 @@ const ServiceDetail = () => {
   return (
     <div className="min-h-screen bg-gray-100 py-10 px-6">
       <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
-        {/* Image */}
         <img
           src={service.image}
           alt={service.title}
           className="w-full h-[450px] object-cover"
         />
-
-        {/* Content */}
         <div className="p-8">
-          {/* Title + Rating */}
           <div className="flex justify-between items-center">
             <h1 className="text-4xl font-bold text-gray-800">
               {service.title}
@@ -79,26 +74,18 @@ const ServiceDetail = () => {
               ⭐ {service.rating || 4.8}
             </span>
           </div>
-
-          {/* Vendor */}
           <p className="mt-4 text-lg text-gray-600">
             Vendor:
             <span className="font-semibold text-gray-800 ml-2">
               {service.vendorId.name}
             </span>
           </p>
-
-          {/* Location */}
           <p className="mt-2 text-gray-500">📍 Location: {service.location}</p>
-
-          {/* Price */}
           <div className="mt-6">
             <h2 className="text-3xl font-bold text-blue-600">
               ₹{service.price}
             </h2>
           </div>
-
-          {/* Description */}
           <div className="mt-8">
             <h3 className="text-2xl font-semibold mb-3">Description</h3>
 
@@ -108,8 +95,6 @@ const ServiceDetail = () => {
               preferred location and time.
             </p>
           </div>
-
-          {/* Booking Section */}
           <div className="mt-8">
             <h3 className="text-2xl font-semibold mb-4">Select Date & Slot</h3>
 
@@ -164,8 +149,6 @@ const ServiceDetail = () => {
               </div>
             </div>
           </div>
-
-          {/* Book Button */}
           <div className="mt-10">
             <button
               className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg text-lg font-medium transition"

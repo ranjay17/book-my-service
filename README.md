@@ -47,11 +47,11 @@ Customers can discover and book services, while vendors can create, manage, and 
 * ✅ Edit Service
 * ✅ Delete Service
 * ✅ Dynamic Service Management using MongoDB
-* ✅ View Booking Requests
-* ✅ Dedicated Pending Bookings Page
+* ✅ View Recent Bookings on Dashboard
+* ✅ View All Booking Requests
 * ✅ Confirm Booking Requests
 * ✅ Cancel Booking Requests
-* ✅ Dynamic Booking Status Updates
+* ✅ Real-time Booking Status Updates
 * ✅ Dashboard Statistics
 
   * Total Bookings
@@ -139,18 +139,17 @@ Services are fetched dynamically from **MongoDB** instead of static frontend dat
 
 ## Vendor Module
 
-* ✅ Dedicated Vendor Header
 * ✅ Dynamic Vendor Dashboard
+* ✅ Recent Bookings Section (Latest Bookings)
+* ✅ View All Bookings Page
 * ✅ Create Service
 * ✅ View Own Services
 * ✅ Edit Service
 * ✅ Delete Service
 * ✅ Dynamic Service Fetching
-* ✅ View Recent Bookings
-* ✅ Dedicated Pending Bookings Management
 * ✅ Confirm Booking
 * ✅ Cancel Booking
-* ✅ Dynamic Dashboard Statistics
+* ✅ Live Dashboard Statistics
 
 ---
 
@@ -231,8 +230,9 @@ Services are fetched dynamically from **MongoDB** instead of static frontend dat
 * ✅ Backend Booking Storage
 * ✅ User Booking Management
 * ✅ Vendor Booking Management
-* ✅ Vendor Dashboard
-* ✅ Dedicated Pending Booking Management
+* ✅ Dynamic Vendor Dashboard
+* ✅ Recent Bookings Section
+* ✅ View All Bookings Management
 * ✅ Booking Confirmation Flow
 * ✅ Booking Cancellation Flow
 * ✅ Real-time Booking Status Updates
@@ -241,23 +241,8 @@ Services are fetched dynamically from **MongoDB** instead of static frontend dat
 * ✅ Persistent Login
 
 ### 🚧 In Progress
-
-* Dynamic Vendor Analytics
 * Reviews & Ratings
 * AI Chat Assistant
-
----
-
-# 🔮 Upcoming Features
-
-* Customer Dashboard
-* Advanced Vendor Analytics
-* Reviews & Ratings System
-* Search & Filters
-* AI Chat Assistant
-* Service Categories
-* Deployment
-* Responsive UI Improvements
 
 ---
 
