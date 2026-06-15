@@ -10,6 +10,7 @@ import VendorDashboard from "../Components/VendorDashboard.jsx";
 import CreateService from "../Pages/CreateService.jsx";
 import VendorServices from "../Pages/VendorServices.jsx";
 import EditServiceForm from "../Pages/EditServiceForm.jsx";
+import VendorPendingBookings from "../Pages/VendorPendingBookings.jsx";
 
 const appRouter = createBrowserRouter([
   {
@@ -55,6 +56,10 @@ const appRouter = createBrowserRouter([
       {
         path: '/vendor/edit-service/:id',
         element: <EditServiceForm />
+      },
+      {
+        path:"/vendor/pending-bookings",
+        element: <VendorPendingBookings />
       }
     ],
   },

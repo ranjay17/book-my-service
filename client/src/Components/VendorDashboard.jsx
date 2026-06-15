@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
@@ -12,14 +11,11 @@ const VendorDashboard = () => {
 
   const fetchBookings = async () => {
     try {
-      const res = await axios.get(
-        "http://localhost:8000/api/vendor-bookings",
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+      const res = await axios.get("http://localhost:8000/api/vendor-bookings", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
 
       setBookings(res.data.bookings);
     } catch (error) {
@@ -30,16 +26,19 @@ const VendorDashboard = () => {
   const totalBookings = bookings.length;
 
   const pendingBookings = bookings.filter(
-    (booking) => booking.status === "pending"
+    (booking) => booking.status === "pending",
   ).length;
 
   const confirmedBookings = bookings.filter(
-    (booking) => booking.status === "confirmed"
+    (booking) => booking.status === "confirmed",
   ).length;
 
   const totalEarnings = bookings
     .filter((booking) => booking.status === "confirmed")
     .reduce((sum, booking) => sum + booking.price, 0);
+
+  // Show only latest 5 bookings
+  const recentBookings = bookings.slice(0, 5);
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">
@@ -55,9 +54,7 @@ const VendorDashboard = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
         <div className="bg-white rounded-xl shadow p-6">
           <h2 className="text-gray-500">Total Bookings</h2>
-          <h1 className="text-4xl font-bold mt-2">
-            {totalBookings}
-          </h1>
+          <h1 className="text-4xl font-bold mt-2">{totalBookings}</h1>
         </div>
 
         <div className="bg-white rounded-xl shadow p-6">
@@ -84,9 +81,7 @@ const VendorDashboard = () => {
 
       {/* Quick Actions */}
       <div className="mt-10">
-        <h2 className="text-2xl font-bold mb-4">
-          Quick Actions
-        </h2>
+        <h2 className="text-2xl font-bold mb-4">Quick Actions</h2>
 
         <div className="flex flex-wrap gap-4">
           <NavLink to="/vendor/create-service">
@@ -101,25 +96,32 @@ const VendorDashboard = () => {
             </button>
           </NavLink>
 
-          <button className="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-lg">
-            View Bookings
-          </button>
+          <NavLink to="/vendor/pending-bookings">
+            <button className="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-lg">
+              View Bookings
+            </button>
+          </NavLink>
         </div>
       </div>
 
       {/* Recent Bookings */}
       <div className="mt-10 bg-white rounded-xl shadow p-6">
-        <h2 className="text-2xl font-bold mb-6">
-          Recent Bookings
-        </h2>
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold">Recent Bookings</h2>
 
-        {bookings.length === 0 ? (
-          <p className="text-gray-500 text-lg">
-            No bookings yet.
-          </p>
+          <NavLink
+            to="/vendor/pending-bookings"
+            className="text-blue-600 font-semibold hover:underline"
+          >
+            View All →
+          </NavLink>
+        </div>
+
+        {recentBookings.length === 0 ? (
+          <p className="text-gray-500 text-lg">No bookings yet.</p>
         ) : (
           <div className="space-y-4">
-            {bookings.map((booking) => (
+            {recentBookings.map((booking) => (
               <div
                 key={booking._id}
                 className="flex justify-between items-center border-b pb-4"
@@ -129,17 +131,11 @@ const VendorDashboard = () => {
                     {booking.serviceTitle}
                   </h3>
 
-                  <p className="text-gray-500">
-                    📅 {booking.bookingDate}
-                  </p>
+                  <p className="text-gray-500">📅 {booking.bookingDate}</p>
 
-                  <p className="text-gray-500">
-                    🕒 {booking.bookingTime}
-                  </p>
+                  <p className="text-gray-500">🕒 {booking.bookingTime}</p>
 
-                  <p className="text-gray-500">
-                    📍 {booking.location}
-                  </p>
+                  <p className="text-gray-500">📍 {booking.location}</p>
 
                   <p className="text-blue-600 font-bold mt-1">
                     ₹{booking.price}
@@ -147,12 +143,12 @@ const VendorDashboard = () => {
                 </div>
 
                 <span
-                  className={`px-4 py-2 rounded-full font-semibold ${
+                  className={`px-4 py-2 rounded-full font-semibold capitalize ${
                     booking.status === "pending"
                       ? "bg-yellow-100 text-yellow-700"
                       : booking.status === "confirmed"
-                      ? "bg-green-100 text-green-700"
-                      : "bg-red-100 text-red-700"
+                        ? "bg-green-100 text-green-700"
+                        : "bg-red-100 text-red-700"
                   }`}
                 >
                   {booking.status}

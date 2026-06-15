@@ -2,7 +2,7 @@
 
 A Full Stack **MERN** application that connects **customers** with **local service providers** such as salons, photographers, electricians, plumbers, cleaners, and more.
 
-Customers can discover and book services, while vendors can create, manage, edit, and respond to booking requests through a secure role-based platform.
+Customers can discover and book services, while vendors can create, manage, and respond to booking requests through a secure **role-based platform**.
 
 > 🚧 **Project Status:** Under Active Development
 
@@ -21,9 +21,15 @@ Customers can discover and book services, while vendors can create, manage, edit
 * ✅ View Dynamic Service Details
 * ✅ Book a Service
 * ✅ Prevent Duplicate Slot Booking
+* ✅ Booking Stored in MongoDB
 * ✅ View My Bookings (Fetched from Backend)
 * ✅ Cancel Booking
-* ✅ Real-time Booking Status (Pending / Confirmed / Cancelled)
+* ✅ Real-time Booking Status
+
+  * Pending
+  * Confirmed
+  * Cancelled
+* ✅ Automatic Status Update after Vendor Action
 * ✅ Booking Request Sent to Vendor
 * 🚧 Reviews & Ratings
 * 🚧 AI Chat Assistant
@@ -42,10 +48,17 @@ Customers can discover and book services, while vendors can create, manage, edit
 * ✅ Delete Service
 * ✅ Dynamic Service Management using MongoDB
 * ✅ View Booking Requests
+* ✅ Dedicated Pending Bookings Page
 * ✅ Confirm Booking Requests
 * ✅ Cancel Booking Requests
-* ✅ Booking Status Updates
-* 🚧 Dynamic Dashboard Analytics
+* ✅ Dynamic Booking Status Updates
+* ✅ Dashboard Statistics
+
+  * Total Bookings
+  * Pending Bookings
+  * Confirmed Jobs
+  * Total Earnings
+* 🚧 Advanced Dashboard Analytics
 
 ---
 
@@ -127,16 +140,17 @@ Services are fetched dynamically from **MongoDB** instead of static frontend dat
 ## Vendor Module
 
 * ✅ Dedicated Vendor Header
-* ✅ Vendor Dashboard
+* ✅ Dynamic Vendor Dashboard
 * ✅ Create Service
 * ✅ View Own Services
 * ✅ Edit Service
 * ✅ Delete Service
 * ✅ Dynamic Service Fetching
-* ✅ View Booking Requests
+* ✅ View Recent Bookings
+* ✅ Dedicated Pending Bookings Management
 * ✅ Confirm Booking
 * ✅ Cancel Booking
-* 🚧 Dynamic Dashboard Statistics
+* ✅ Dynamic Dashboard Statistics
 
 ---
 
@@ -156,10 +170,10 @@ Services are fetched dynamically from **MongoDB** instead of static frontend dat
 
 ## My Bookings
 
-* ✅ Fetch bookings from backend
-* ✅ Display booking status
-* ✅ Cancel booking functionality
-* ✅ Automatic status updates after vendor actions
+* ✅ Fetch Bookings from Backend
+* ✅ Display Booking Status
+* ✅ Cancel Booking
+* ✅ Automatic Status Updates after Vendor Actions
 
 ---
 
@@ -217,17 +231,18 @@ Services are fetched dynamically from **MongoDB** instead of static frontend dat
 * ✅ Backend Booking Storage
 * ✅ User Booking Management
 * ✅ Vendor Booking Management
+* ✅ Vendor Dashboard
+* ✅ Dedicated Pending Booking Management
 * ✅ Booking Confirmation Flow
 * ✅ Booking Cancellation Flow
+* ✅ Real-time Booking Status Updates
 * ✅ Slot Validation Logic
 * ✅ Email Notifications
 * ✅ Persistent Login
-* ✅ Vendor Dashboard
-* ✅ Dynamic Booking Status
 
-🚧 In Progress
+### 🚧 In Progress
 
-* Dynamic Vendor Dashboard Analytics
+* Dynamic Vendor Analytics
 * Reviews & Ratings
 * AI Chat Assistant
 
@@ -236,7 +251,7 @@ Services are fetched dynamically from **MongoDB** instead of static frontend dat
 # 🔮 Upcoming Features
 
 * Customer Dashboard
-* Dynamic Vendor Analytics
+* Advanced Vendor Analytics
 * Reviews & Ratings System
 * Search & Filters
 * AI Chat Assistant
