@@ -1,8 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../utils/constants";
 
 const MyBooking = () => {
   const [bookings, setBookings] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchBookings();
@@ -11,7 +14,7 @@ const MyBooking = () => {
   const fetchBookings = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8000/api/all-booking",
+        `${BASE_URL}/api/all-booking`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -28,7 +31,7 @@ const MyBooking = () => {
   const handleCancel = async (id) => {
     try {
       const response = await axios.patch(
-        `http://localhost:8000/api/cancel-booking/${id}`,
+        `${BASE_URL}/api/cancel-booking/${id}`,
         {},
         {
           headers: {
@@ -38,7 +41,6 @@ const MyBooking = () => {
       );
 
       alert(response.data.message);
-
       fetchBookings();
     } catch (error) {
       alert(error.response?.data?.message || "Unable to cancel booking");
@@ -65,13 +67,15 @@ const MyBooking = () => {
                   <h2 className="text-2xl font-bold">{booking.serviceTitle}</h2>
 
                   <span
-                    className={`px-4 py-2 rounded-full text-sm font-semibold
+                    className={`px-4 py-2 rounded-full text-sm font-semibold capitalize
                     ${
                       booking.status === "pending"
                         ? "bg-yellow-100 text-yellow-700"
                         : booking.status === "confirmed"
                           ? "bg-green-100 text-green-700"
-                          : "bg-red-100 text-red-700"
+                          : booking.status === "completed"
+                            ? "bg-blue-100 text-blue-700"
+                            : "bg-red-100 text-red-700"
                     }`}
                   >
                     {booking.status}
@@ -96,12 +100,22 @@ const MyBooking = () => {
                   </p>
                 </div>
 
-                {booking.status !== "cancelled" && (
+                {(booking.status === "pending" ||
+                  booking.status === "confirmed") && (
                   <button
                     onClick={() => handleCancel(booking._id)}
                     className="mt-6 w-full bg-red-500 hover:bg-red-600 text-white py-3 rounded-lg"
                   >
                     Cancel Booking
+                  </button>
+                )}
+
+                {booking.status === "completed" && (
+                  <button
+                    onClick={() => navigate(`/add-review/${booking._id}`)}
+                    className="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg"
+                  >
+                    Add Review
                   </button>
                 )}
               </div>

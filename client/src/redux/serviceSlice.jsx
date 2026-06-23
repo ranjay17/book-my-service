@@ -4,6 +4,7 @@ const serviceSlice = createSlice({
   name: "service",
   initialState: {
     service: [],
+    searchText: "",
   },
   reducers: {
     addService: (state, action) => {
@@ -20,6 +21,10 @@ const serviceSlice = createSlice({
       );
     },
 
+    setSearchText: (state, action) => {
+      state.searchText = action.payload;
+    },
+
     removeService: (state, action) => {
       state.service = state.service.filter(
         (item) => item._id !== action.payload,
@@ -28,7 +33,11 @@ const serviceSlice = createSlice({
   },
 });
 
-export const { addService, getAllService, updateService, removeService } =
-  serviceSlice.actions;
-
+export const {
+  addService,
+  getAllService,
+  updateService,
+  removeService,
+  setSearchText,
+} = serviceSlice.actions;
 export default serviceSlice.reducer;

@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllService, removeService } from "../redux/serviceSlice";
 import { NavLink, useNavigate } from "react-router-dom";
+import { BASE_URL } from "../utils/constants";
 
 const VendorServices = () => {
   const services = useSelector((store) => store.service.service);
@@ -15,7 +16,7 @@ const VendorServices = () => {
   const fetchServices = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8000/vendor/all-service",
+        `${BASE_URL}/vendor/all-service`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -31,7 +32,7 @@ const VendorServices = () => {
   const handleDelete = async(id) =>{
     try {
       const response = await axios.delete(
-        `http://localhost:8000/vendor/delete-service/${id}`,
+        `${BASE_URL}/vendor/delete-service/${id}`,
          {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,

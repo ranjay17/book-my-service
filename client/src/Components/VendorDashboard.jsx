@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
+import { BASE_URL } from "../utils/constants";
 
 const VendorDashboard = () => {
   const [bookings, setBookings] = useState([]);
@@ -11,7 +12,7 @@ const VendorDashboard = () => {
 
   const fetchBookings = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/api/vendor-bookings", {
+      const res = await axios.get(`${BASE_URL}/api/vendor-bookings`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -37,7 +38,6 @@ const VendorDashboard = () => {
     .filter((booking) => booking.status === "confirmed")
     .reduce((sum, booking) => sum + booking.price, 0);
 
-  // Show only latest 3 bookings
   const recentBookings = bookings.slice(0, 3);
 
   return (
@@ -49,8 +49,6 @@ const VendorDashboard = () => {
           Manage your services and bookings from your dashboard.
         </p>
       </div>
-
-      {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
         <div className="bg-white rounded-xl shadow p-6">
           <h2 className="text-gray-500">Total Bookings</h2>
@@ -65,7 +63,7 @@ const VendorDashboard = () => {
         </div>
 
         <div className="bg-white rounded-xl shadow p-6">
-          <h2 className="text-gray-500">Confirmed Jobs</h2>
+          <h2 className="text-gray-500">Confirmed Bookings</h2>
           <h1 className="text-4xl font-bold mt-2 text-green-600">
             {confirmedBookings}
           </h1>
@@ -78,8 +76,6 @@ const VendorDashboard = () => {
           </h1>
         </div>
       </div>
-
-      {/* Quick Actions */}
       <div className="mt-10">
         <h2 className="text-2xl font-bold mb-4">Quick Actions</h2>
 
@@ -103,8 +99,6 @@ const VendorDashboard = () => {
           </NavLink>
         </div>
       </div>
-
-      {/* Recent Bookings */}
       <div className="mt-10 bg-white rounded-xl shadow p-6">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold">Recent Bookings</h2>
@@ -148,7 +142,9 @@ const VendorDashboard = () => {
                       ? "bg-yellow-100 text-yellow-700"
                       : booking.status === "confirmed"
                         ? "bg-green-100 text-green-700"
-                        : "bg-red-100 text-red-700"
+                        : booking.status === "completed"
+                          ? "bg-blue-100 text-blue-700"
+                          : "bg-red-100 text-red-700"
                   }`}
                 >
                   {booking.status}

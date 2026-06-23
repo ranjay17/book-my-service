@@ -11,6 +11,12 @@ import CreateService from "../Pages/CreateService.jsx";
 import VendorServices from "../Pages/VendorServices.jsx";
 import EditServiceForm from "../Pages/EditServiceForm.jsx";
 import VendorPendingBookings from "../Pages/VendorPendingBookings.jsx";
+import ReviewForm from "../Pages/ReviewForm.jsx";
+import NotFound from "../Components/NotFound.jsx";
+
+import ProtectedVendorRoute from "../Components/ProtectedVendorRoute.jsx";
+import ProtectedUserRoute from "../Components/ProtectedUserRoute.jsx";
+import About from "../Pages/About.jsx";
 
 const appRouter = createBrowserRouter([
   {
@@ -37,29 +43,74 @@ const appRouter = createBrowserRouter([
         path: "/service/:id",
         element: <ServiceDetail />,
       },
+
+      // USER ROUTES
       {
         path: "/my-bookings",
-        element: <MyBooking />,
+        element: (
+          <ProtectedUserRoute>
+            <MyBooking />
+          </ProtectedUserRoute>
+        ),
       },
       {
+        path: "/add-review/:bookingId",
+        element: (
+          <ProtectedUserRoute>
+            <ReviewForm />
+          </ProtectedUserRoute>
+        ),
+      },
+
+      // VENDOR ROUTES
+      {
         path: "/vendor/dashboard",
-        element: <VendorDashboard />,
+        element: (
+          <ProtectedVendorRoute>
+            <VendorDashboard />
+          </ProtectedVendorRoute>
+        ),
       },
       {
         path: "/vendor/create-service",
-        element: <CreateService />,
+        element: (
+          <ProtectedVendorRoute>
+            <CreateService />
+          </ProtectedVendorRoute>
+        ),
       },
       {
         path: "/vendor/services",
-        element: <VendorServices />,
+        element: (
+          <ProtectedVendorRoute>
+            <VendorServices />
+          </ProtectedVendorRoute>
+        ),
       },
       {
         path: "/vendor/edit-service/:id",
-        element: <EditServiceForm />,
+        element: (
+          <ProtectedVendorRoute>
+            <EditServiceForm />
+          </ProtectedVendorRoute>
+        ),
       },
       {
         path: "/vendor/bookings",
-        element: <VendorPendingBookings />,
+        element: (
+          <ProtectedVendorRoute>
+            <VendorPendingBookings />
+          </ProtectedVendorRoute>
+        ),
+      },
+      {
+        path: '/about',
+        element: <About />
+      }
+      ,
+      {
+        path: "*",
+        element: <NotFound />,
       },
     ],
   },

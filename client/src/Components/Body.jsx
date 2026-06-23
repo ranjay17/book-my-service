@@ -6,20 +6,42 @@ import { useDispatch, useSelector } from "react-redux";
 import VendorDashboard from "./VendorDashboard";
 import axios from "axios";
 import { getAllService } from "../redux/serviceSlice";
+import { BASE_URL } from "../utils/constants";
 
 const Body = () => {
+  const [ratingsMap, setRatingsMap] = React.useState({});
   const dispatch = useDispatch();
   const service = useSelector((store)=>store.service.service);
   useEffect(() => {
     fetchAllService();
+    fetchRatings();
   }, []);
 
   const fetchAllService = async() =>{
     const response = await axios.get(
-      "http://localhost:8000/vendor/all-service",
+      `${BASE_URL}/vendor/all-service`,
     );
     dispatch(getAllService(response.data.services))
   }
+
+  const fetchRatings = async () => {
+    try {
+      const res = await axios.get(`${BASE_URL}/api/service-ratings`);
+
+      const map = {};
+      res.data.ratings.forEach((r) => {
+        map[r._id] = {
+          avg: r.avgRating.toFixed(1),
+          count: r.totalReviews,
+        };
+      });
+
+      setRatingsMap(map);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  console.log("ratings:", ratingsMap)
   const featuredServices = service.slice(0, 4);
   const user = useSelector((store) => store.user.user);
 
@@ -41,7 +63,11 @@ const Body = () => {
               key={s._id}
               id={s._id}
               title={s.title}
-              rating={s.rating || 4.8}
+              rating={
+                ratingsMap[s._id]
+                  ? `${ratingsMap[s._id].avg} (${ratingsMap[s._id].count})`
+                  : "No reviews"
+              }
               img={s.image}
               location={s.location}
               vendor={s.vendorId.name || "Service Provider"}

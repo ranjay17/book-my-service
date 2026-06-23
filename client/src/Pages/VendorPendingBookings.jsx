@@ -1,6 +1,7 @@
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { BASE_URL } from "../utils/constants";
 
 const VendorPendingBookings = () => {
   const [bookings, setBookings] = useState([]);
@@ -12,7 +13,7 @@ const VendorPendingBookings = () => {
   const fetchBookings = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8000/api/vendor-bookings",
+        `${BASE_URL}/api/vendor-bookings`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -29,7 +30,7 @@ const VendorPendingBookings = () => {
   const handleConfirm = async (id) => {
     try {
       const res = await axios.patch(
-        `http://localhost:8000/api/confirm-booking/${id}`,
+        `${BASE_URL}/api/confirm-booking/${id}`,
         {},
         {
           headers: {
@@ -48,13 +49,13 @@ const VendorPendingBookings = () => {
   const handleCancel = async (id) => {
     try {
       const res = await axios.patch(
-        `http://localhost:8000/api/cancel-booking/${id}`,
+        `${BASE_URL}/api/vendor-cancel-booking/${id}`,
         {},
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }
+        },
       );
 
       alert(res.data.message);

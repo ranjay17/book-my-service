@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import { BASE_URL } from "../utils/constants";
 
 const EditServiceForm = () => {
   const { id } = useParams();
@@ -14,28 +15,44 @@ const EditServiceForm = () => {
   const[category, setCategory] = useState(service?.category);
   const[image, setImage] = useState(service?.image);
   const[location, setLocation] = useState(service?.location);
+  const [loading, setLoading] = useState(false);
 
-  const handleUpdateService = async(e) =>{
+  const handleUpdateService = async (e) => {
     e.preventDefault();
+
+    setLoading(true);
+
     try {
-        const updatedService = {title, description, price, category, image, location}
-        const response = await axios.patch(
-          `http://localhost:8000/vendor/update-service/${service._id}`, updatedService,
-          {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`
-            }
-          }
-        );
-        if(response.status === 200){
-            alert("service edited")
-            navigate("/vendor/services");
-        }
+      const updatedService = {
+        title,
+        description,
+        price,
+        category,
+        image,
+        location,
+      };
+
+      const response = await axios.patch(
+        `${BASE_URL}/vendor/update-service/${service._id}`,
+        updatedService,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        },
+      );
+
+      if (response.status === 200) {
+        alert("Service Updated Successfully");
+        setLoading(false);
+        navigate("/vendor/services");
+      }
     } catch (error) {
-        alert("service not edited")
-         console.log(error.response?.status);
+      alert("Service Not Updated");
+      console.log(error.response?.status);
+      setLoading(false);
     }
-  }
+  };
   return (
     <div className="min-h-screen bg-gray-100 py-10 px-4">
       <div className="max-w-3xl mx-auto bg-white shadow-xl rounded-2xl p-8">
@@ -57,7 +74,7 @@ const EditServiceForm = () => {
               placeholder="Enter service title"
               className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
               value={title}
-              onChange={(e)=>setTitle(e.target.value)}
+              onChange={(e) => setTitle(e.target.value)}
             />
           </div>
           <div>
@@ -69,7 +86,7 @@ const EditServiceForm = () => {
               placeholder="Enter service description"
               className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none resize-none focus:ring-2 focus:ring-blue-500"
               value={description}
-              onChange={(e)=>setDescription(e.target.value)}
+              onChange={(e) => setDescription(e.target.value)}
             ></textarea>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
@@ -82,7 +99,7 @@ const EditServiceForm = () => {
                 placeholder="Enter price"
                 className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
                 value={price}
-                onChange={(e)=>setPrice(Number(e.target.value))}
+                onChange={(e) => setPrice(Number(e.target.value))}
               />
             </div>
 
@@ -93,7 +110,8 @@ const EditServiceForm = () => {
 
               <select
                 className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
-                value={category} onChange={(e)=>setCategory(e.target.value)}
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
               >
                 <option value="">Select Category</option>
                 <option value="Cleaning">Cleaning</option>
@@ -119,7 +137,7 @@ const EditServiceForm = () => {
               placeholder="Enter location"
               className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
               value={location}
-              onChange={(e)=>setLocation(e.target.value)}
+              onChange={(e) => setLocation(e.target.value)}
             />
           </div>
           <div>
@@ -131,7 +149,7 @@ const EditServiceForm = () => {
               placeholder="Enter image URL"
               className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
               value={image}
-              onChange={(e)=>setImage(e.target.value)}
+              onChange={(e) => setImage(e.target.value)}
             />
           </div>
           <div className="flex gap-4 pt-4">
@@ -139,11 +157,11 @@ const EditServiceForm = () => {
               type="submit"
               className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold transition"
             >
-              Update Service
+              {loading ? "Updating Service..." : "Update Service"}
             </button>
-
             <button
               type="button"
+              onClick={() => navigate("/vendor/services")}
               className="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 py-3 rounded-lg font-semibold transition"
             >
               Cancel

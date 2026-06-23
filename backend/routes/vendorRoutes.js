@@ -12,6 +12,6 @@ router.get("/vendor-bookings", auth, getVendorBookings);
 
 router.patch("/confirm-booking/:id", auth, confirmBooking);
 
-router.patch("/cancel-booking/:id", auth, cancelBooking);
+router.patch("/vendor-cancel-booking/:id", auth, cancelBooking);
 
 export default router;

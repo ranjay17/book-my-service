@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
+import { BASE_URL } from "../utils/constants";
 
 const Signup = () => {
   const [name, setName] = useState("");
@@ -8,10 +9,12 @@ const Signup = () => {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("user");
+   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate()
   const handleSignup = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       if (!name || !email || !phone || !password || !role) {
         alert("All fields are required");
@@ -24,19 +27,17 @@ const Signup = () => {
         role,
       };
 
-      const response = await axios.post(
-        "http://localhost:8000/user/register",
-        newUser,
-      );
-      if(response.status === 200){
-        alert("Signup successfull")
-      }else{
-        alert("signup failed. Please try again...")
+      const response = await axios.post(`${BASE_URL}/user/register`, newUser);
+      if (response.status === 200) {
+        alert("Signup successfull");
+      } else {
+        alert("signup failed. Please try again...");
       }
-      navigate('/login')
-
+      navigate("/login");
     } catch (error) {
       console.log("error in creating the user:", error);
+    } finally {
+      setLoading(false);
     }
   }
     return (
@@ -94,7 +95,7 @@ const Signup = () => {
             type="submit"
             className="w-full bg-blue-600 text-white py-3 rounded-lg"
           >
-            Signup
+            {loading ? "Creating..." : "Signup"}
           </button>
         </form>
       </div>

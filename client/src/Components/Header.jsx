@@ -3,6 +3,7 @@ import logo from "../assets/logo.png";
 import { NavLink } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import { removeUser } from "../redux/userSlice";
+import { setSearchText } from "../redux/serviceSlice";
 
 const Header = () => {
   const user = useSelector((store) => store.user.user);
@@ -27,7 +28,7 @@ const Header = () => {
         </div>
 
         <ul className="hidden md:flex items-center gap-8 font-medium">
-          <li>
+          <li onClick={() => dispatch(setSearchText(""))}>
             <NavLink to="/" className={navLinkClass}>
               Home
             </NavLink>
@@ -36,12 +37,6 @@ const Header = () => {
           <li>
             <NavLink to="/services" className={navLinkClass}>
               Services
-            </NavLink>
-          </li>
-
-          <li>
-            <NavLink to="/vendors" className={navLinkClass}>
-              Vendors
             </NavLink>
           </li>
 

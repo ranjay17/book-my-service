@@ -26,13 +26,41 @@ export const createBooking = async (req, res) => {
         message: "Service not found",
       });
     }
+
     const vendor = await User.findById(service.vendorId);
 
     if (!vendor) {
-  return res.status(404).json({
-    message: "Vendor not found",
-  });
-}
+      return res.status(404).json({
+        message: "Vendor not found",
+      });
+    }
+    const bookingDateObj = new Date(bookingDate);
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (bookingDateObj < today) {
+      return res.status(400).json({
+        message: "Past dates cannot be booked",
+      });
+    }
+    if (bookingDateObj.getTime() === today.getTime()) {
+      const currentHour = new Date().getHours();
+
+      const slotMap = {
+        "10:00 AM": 10,
+        "12:00 PM": 12,
+        "02:00 PM": 14,
+        "04:00 PM": 16,
+      };
+
+      const selectedHour = slotMap[bookingTime];
+
+      if (selectedHour <= currentHour) {
+        return res.status(400).json({
+          message: "Selected time slot has already passed",
+        });
+      }
+    }
 
     const existingBooking = await Booking.findOne({
       serviceId,
@@ -62,6 +90,7 @@ export const createBooking = async (req, res) => {
     });
 
     await newBooking.save();
+
     try {
       await sendMail(
         vendor.email,
@@ -84,6 +113,7 @@ export const createBooking = async (req, res) => {
 };
 
 export const getAllBooking = async (req, res) => {
+  await autoCompleteBookings();
   try {
     if (req.user.role !== "user") {
       return res.status(400).json({
@@ -133,6 +163,19 @@ export const cancelBooking = async (req, res) => {
 
     booking.status = "cancelled";
     await booking.save();
+    const vendor = await User.findById(booking.vendorId);
+
+    if (vendor) {
+      try {
+        await sendMail(
+          vendor.email,
+          "Booking Cancelled By User",
+          `The booking for "${booking.serviceTitle}" has been cancelled by the customer.`,
+        );
+      } catch (err) {
+        console.log("Vendor mail failed:", err);
+      }
+    }
 
     return res.status(200).json({
       message: "Booking cancelled successfully",
@@ -143,4 +186,19 @@ export const cancelBooking = async (req, res) => {
       message: error.message,
     });
   }
+};
+
+export const autoCompleteBookings = async () => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  await Booking.updateMany(
+    {
+      bookingDate: { $lt: today.toISOString().split("T")[0] },
+      status: "confirmed",
+    },
+    {
+      $set: { status: "completed" },
+    },
+  );
 };

@@ -1,24 +1,41 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { BASE_URL } from "../utils/constants";
 
 const ServiceDetail = () => {
-  const[selectDate, setSelectData] = useState("");
-  const[selectTime, setSelectTime] = useState("");
-  const { id } = useParams();
-  const navigate = useNavigate()
+  const [selectDate, setSelectData] = useState("");
+  const [selectTime, setSelectTime] = useState("");
+  const [reviews, setReviews] = useState([]);
 
-  const services = useSelector((store)=>store.service.service);
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  const services = useSelector((store) => store.service.service);
   const service = services.find((s) => s._id === id);
 
-  if (!service) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <h1 className="text-3xl font-bold text-red-500">Service Not Found</h1>
-      </div>
-    );
-  }
+  useEffect(() => {
+    fetchReviews();
+  }, [id]);
+
+  const fetchReviews = async () => {
+    try {
+      const res = await axios.get(
+        `${BASE_URL}/api/service-reviews/${id}`,
+      );
+      setReviews(res.data.reviews);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const averageRating =
+    reviews.length > 0
+      ? (
+          reviews.reduce((acc, r) => acc + Number(r.rating), 0) / reviews.length
+        ).toFixed(1)
+      : null;
 
   const handleBookService = async () => {
     if (!selectDate || !selectTime) {
@@ -28,7 +45,7 @@ const ServiceDetail = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/create-booking",
+        `${BASE_URL}/api/create-booking`,
         {
           serviceId: service._id,
           bookingDate: selectDate,
@@ -40,122 +57,89 @@ const ServiceDetail = () => {
           },
         },
       );
+
       alert(response.data.message);
       navigate("/my-bookings");
     } catch (error) {
-      console.log(error);
-
-      if (error.response?.status === 403) {
-        alert("Session expired. Please login again.");
-        localStorage.removeItem("token");
-        navigate("/login");
-        return;
-      }
-
       alert(error.response?.data?.message || "Booking failed");
     }
   };
 
+  if (!service) {
+    return <h1 className="text-center text-2xl">Service Not Found</h1>;
+  }
+
   return (
     <div className="min-h-screen bg-gray-100 py-10 px-6">
       <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
-        <img
-          src={service.image}
-          alt={service.title}
-          className="w-full h-[450px] object-cover"
-        />
+        <img src={service.image} className="w-full h-[450px] object-cover" />
+
         <div className="p-8">
           <div className="flex justify-between items-center">
-            <h1 className="text-4xl font-bold text-gray-800">
-              {service.title}
-            </h1>
+            <h1 className="text-4xl font-bold">{service.title}</h1>
 
             <span className="bg-yellow-100 text-yellow-700 px-4 py-2 rounded-full font-semibold">
-              ⭐ {service.rating || 4.8}
+              ⭐ {averageRating ? averageRating : "4.8"} ({reviews.length})
             </span>
           </div>
-          <p className="mt-4 text-lg text-gray-600">
-            Vendor:
-            <span className="font-semibold text-gray-800 ml-2">
-              {service.vendorId.name}
-            </span>
-          </p>
-          <p className="mt-2 text-gray-500">📍 Location: {service.location}</p>
-          <div className="mt-6">
-            <h2 className="text-3xl font-bold text-blue-600">
-              ₹{service.price}
-            </h2>
-          </div>
+
+          <p className="mt-4 text-lg">Vendor: {service.vendorId.name}</p>
+
+          <p className="text-gray-500">📍 {service.location}</p>
+
+          <h2 className="text-3xl font-bold text-blue-600 mt-4">
+            ₹{service.price}
+          </h2>
+
+          {/* BOOKING */}
           <div className="mt-8">
-            <h3 className="text-2xl font-semibold mb-3">Description</h3>
+            <h3 className="text-2xl font-semibold">Select Slot</h3>
 
-            <p className="text-gray-600 leading-7">
-              Professional {service.title.toLowerCase()} service provided by
-              experienced experts. Get reliable, high-quality service at your
-              preferred location and time.
-            </p>
-          </div>
-          <div className="mt-8">
-            <h3 className="text-2xl font-semibold mb-4">Select Date & Slot</h3>
+            <input
+              type="date"
+              value={selectDate}
+              onChange={(e) => setSelectData(e.target.value)}
+              className="border p-2 mt-3"
+            />
 
-            <div className="flex flex-col gap-5">
-              <input
-                type="date"
-                value={selectDate}
-                onChange={(e) => setSelectData(e.target.value)}
-                className="border border-gray-300 px-4 py-3 rounded-lg w-fit focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-
-              <div className="flex flex-wrap gap-4">
+            <div className="flex gap-3 mt-3">
+              {["10:00 AM", "12:00 PM", "02:00 PM", "04:00 PM"].map((t) => (
                 <button
-                  className="border px-4 py-2 rounded-lg hover:bg-blue-600 hover:text-white transition"
-                  onClick={() => setSelectTime("10:00 AM")}
-                  style={{
-                    background: selectTime === "10:00 AM" ? "green" : "",
-                  }}
+                  key={t}
+                  onClick={() => setSelectTime(t)}
+                  className={`px-3 py-2 border rounded ${
+                    selectTime === t ? "bg-green-500 text-white" : ""
+                  }`}
                 >
-                  10:00 AM
+                  {t}
                 </button>
-
-                <button
-                  className="border px-4 py-2 rounded-lg hover:bg-blue-600 hover:text-white transition"
-                  onClick={() => setSelectTime("12:00 PM")}
-                  style={{
-                    background: selectTime === "12:00 PM" ? "green" : "",
-                  }}
-                >
-                  12:00 PM
-                </button>
-
-                <button
-                  className="border px-4 py-2 rounded-lg hover:bg-blue-600 hover:text-white transition"
-                  onClick={() => setSelectTime("02:00 PM")}
-                  style={{
-                    background: selectTime === "02:00 PM" ? "green" : "",
-                  }}
-                >
-                  02:00 PM
-                </button>
-
-                <button
-                  className="border px-4 py-2 rounded-lg hover:bg-blue-600 hover:text-white transition"
-                  onClick={() => setSelectTime("04:00 PM")}
-                  style={{
-                    background: selectTime === "04:00 PM" ? "green" : "",
-                  }}
-                >
-                  04:00 PM
-                </button>
-              </div>
+              ))}
             </div>
           </div>
+
+          <button
+            onClick={handleBookService}
+            className="mt-8 bg-blue-600 text-white px-6 py-3 rounded-lg"
+          >
+            Book Service
+          </button>
+
+          {/* REVIEWS SECTION */}
           <div className="mt-10">
-            <button
-              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg text-lg font-medium transition"
-              onClick={handleBookService}
-            >
-              Book Service
-            </button>
+            <h2 className="text-2xl font-bold mb-4">Customer Reviews</h2>
+
+            {reviews.length === 0 ? (
+              <p className="text-gray-500">No reviews yet</p>
+            ) : (
+              reviews.map((r) => (
+                <div key={r._id} className="border-b py-3">
+                  <p className="font-semibold">
+                    ⭐ {r.rating} - {r.userId?.name}
+                  </p>
+                  <p className="text-gray-600">{r.feedback}</p>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </div>

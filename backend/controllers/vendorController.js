@@ -1,8 +1,10 @@
 import Booking from "../models/bookingModel.js";
 import User from "../models/userModel.js";
 import sendMail from "../utils/sendMail.js";
+import { autoCompleteBookings } from "./bookingController.js";
 
 export const getVendorBookings = async (req, res) => {
+  await autoCompleteBookings();
   try {
     if (req.user.role !== "vendor") {
       return res.status(403).json({

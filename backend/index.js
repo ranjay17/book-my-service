@@ -6,6 +6,7 @@ import userRouter from "./routes/userRoutes.js";
 import serviceRouter from "./routes/serviceRoutes.js";
 import bookingRouter from "./routes/bookingRoutes.js";
 import vendorRouter from "./routes/vendorRoutes.js";
+import ratingRouter from "./routes/ratingRoutes.js";
 
 dotenv.config();
 db()
@@ -23,6 +24,7 @@ app.use('/user', userRouter);
 app.use('/vendor', serviceRouter);
 app.use('/api', bookingRouter);
 app.use('/api', vendorRouter);
+app.use('/api', ratingRouter);
 
 app.listen(process.env.PORT, ()=>{
     console.log("Server is running on port:", process.env.PORT)
