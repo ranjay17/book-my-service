@@ -90,8 +90,6 @@ const ServiceDetail = () => {
           <h2 className="text-3xl font-bold text-blue-600 mt-4">
             ₹{service.price}
           </h2>
-
-          {/* BOOKING */}
           <div className="mt-8">
             <h3 className="text-2xl font-semibold">Select Slot</h3>
 
@@ -123,8 +121,6 @@ const ServiceDetail = () => {
           >
             Book Service
           </button>
-
-          {/* REVIEWS SECTION */}
           <div className="mt-10">
             <h2 className="text-2xl font-bold mb-4">Customer Reviews</h2>
 
