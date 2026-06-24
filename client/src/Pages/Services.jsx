@@ -1,25 +1,35 @@
 import React, { useEffect, useState } from "react";
 import ServicesCard from "../Components/ServicesCard";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
+import { getAllService } from "../redux/serviceSlice";
 
 const Services = () => {
+  const dispatch = useDispatch();
+
   const services = useSelector((store) => store.service.service);
   const searchText = useSelector((store) => store.service.searchText);
 
-  console.log(
-    "Full Service State:",
-    useSelector((store) => store.service),
-  );
-  console.log("Search Text:", searchText);
-
   const [ratingsMap, setRatingsMap] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  const fetchAllService = async () => {
+    try {
+      const response = await axios.get(`${BASE_URL}/vendor/all-service`);
+
+      dispatch(getAllService(response.data.services));
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
+    fetchAllService();
     fetchRatings();
   }, []);
-
   const fetchRatings = async () => {
     try {
       const res = await axios.get(`${BASE_URL}/api/service-ratings`);
@@ -38,10 +48,17 @@ const Services = () => {
       console.log(error);
     }
   };
-
   const filteredServices = services.filter((service) =>
     service.title.toLowerCase().includes(searchText.toLowerCase()),
   );
+  if (loading) {
+    return (
+      <div className="col-span-full flex flex-col items-center justify-center min-h-[200px]">
+        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600"></div>
+        <p className="mt-3 text-gray-500">Loading services...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="py-10 px-6">
@@ -67,7 +84,7 @@ const Services = () => {
               }
               img={s.image}
               location={s.location}
-              vendor={s.vendorId.name || "Service Provider"}
+              vendor={s.vendorId?.name || "Service Provider"}
               price={s.price}
             />
           ))}

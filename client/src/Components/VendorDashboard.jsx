@@ -18,37 +18,40 @@ const VendorDashboard = () => {
         },
       });
 
-      setBookings(res.data.bookings);
+      setBookings(res.data.bookings || []);
     } catch (error) {
       console.log("Error in fetching bookings:", error);
     }
   };
 
+  // ---------------- STATS ----------------
   const totalBookings = bookings.length;
 
-  const pendingBookings = bookings.filter(
-    (booking) => booking.status === "pending",
+  const pendingBookings = bookings.filter((b) => b.status === "pending").length;
+
+  // ❌ confirmed remove, only completed use
+  const completedBookings = bookings.filter(
+    (b) => b.status === "completed",
   ).length;
 
-  const confirmedBookings = bookings.filter(
-    (booking) => booking.status === "confirmed",
-  ).length;
-
+  // ✅ FIXED EARNINGS (completed only)
   const totalEarnings = bookings
-    .filter((booking) => booking.status === "confirmed")
-    .reduce((sum, booking) => sum + booking.price, 0);
+    .filter((b) => b.status === "completed")
+    .reduce((sum, b) => sum + (Number(b.price) || 0), 0);
 
   const recentBookings = bookings.slice(0, 3);
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">
-      {/* Welcome Section */}
+      {/* Header */}
       <div className="bg-blue-600 text-white rounded-xl p-8 shadow-lg">
         <h1 className="text-4xl font-bold">Welcome Back 👋</h1>
         <p className="mt-2 text-lg text-blue-100">
           Manage your services and bookings from your dashboard.
         </p>
       </div>
+
+      {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
         <div className="bg-white rounded-xl shadow p-6">
           <h2 className="text-gray-500">Total Bookings</h2>
@@ -62,10 +65,11 @@ const VendorDashboard = () => {
           </h1>
         </div>
 
+        {/* ❌ confirmed removed → completed added */}
         <div className="bg-white rounded-xl shadow p-6">
-          <h2 className="text-gray-500">Confirmed Bookings</h2>
+          <h2 className="text-gray-500">Completed Bookings</h2>
           <h1 className="text-4xl font-bold mt-2 text-green-600">
-            {confirmedBookings}
+            {completedBookings}
           </h1>
         </div>
 
@@ -76,6 +80,8 @@ const VendorDashboard = () => {
           </h1>
         </div>
       </div>
+
+      {/* Actions */}
       <div className="mt-10">
         <h2 className="text-2xl font-bold mb-4">Quick Actions</h2>
 
@@ -99,6 +105,8 @@ const VendorDashboard = () => {
           </NavLink>
         </div>
       </div>
+
+      {/* Recent Bookings */}
       <div className="mt-10 bg-white rounded-xl shadow p-6">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold">Recent Bookings</h2>
@@ -126,9 +134,7 @@ const VendorDashboard = () => {
                   </h3>
 
                   <p className="text-gray-500">📅 {booking.bookingDate}</p>
-
                   <p className="text-gray-500">🕒 {booking.bookingTime}</p>
-
                   <p className="text-gray-500">📍 {booking.location}</p>
 
                   <p className="text-blue-600 font-bold mt-1">
@@ -137,15 +143,14 @@ const VendorDashboard = () => {
                 </div>
 
                 <span
-                  className={`px-4 py-2 rounded-full font-semibold capitalize ${
-                    booking.status === "pending"
-                      ? "bg-yellow-100 text-yellow-700"
-                      : booking.status === "confirmed"
-                        ? "bg-green-100 text-green-700"
+                  className={`px-4 py-2 rounded-full font-semibold capitalize
+                    ${
+                      booking.status === "pending"
+                        ? "bg-yellow-100 text-yellow-700"
                         : booking.status === "completed"
-                          ? "bg-blue-100 text-blue-700"
+                          ? "bg-green-100 text-green-700"
                           : "bg-red-100 text-red-700"
-                  }`}
+                    }`}
                 >
                   {booking.status}
                 </span>
@@ -155,6 +160,7 @@ const VendorDashboard = () => {
         )}
       </div>
 
+      {/* Footer Button */}
       <div className="mt-6 flex justify-center">
         <NavLink to="/vendor/bookings">
           <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg">

@@ -12,41 +12,30 @@ const App = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const user = localStorage.getItem("user");
     const token = localStorage.getItem("token");
+    const user = localStorage.getItem("user");
     if (!token) {
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
       dispatch(removeUser());
+      navigate("/login");
       return;
     }
 
     try {
       const decoded = jwtDecode(token);
       if (decoded.exp * 1000 < Date.now()) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-
         dispatch(removeUser());
-
-        alert("Session expired. Please login again.");
-
         navigate("/login");
         return;
       }
+
       if (user) {
         dispatch(addUser(JSON.parse(user)));
       }
-    } catch (error) {
-      console.log(error)
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
-
+    } catch (err) {
       dispatch(removeUser());
-
       navigate("/login");
     }
-  }, [dispatch, navigate]);
+  }, []);
 
   const header = userStore?.role === "vendor" ? <VendorHeader /> : <Header />;
 

@@ -52,12 +52,6 @@ const VendorHeader = () => {
               Bookings
             </NavLink>
           </li>
-
-          <li>
-            <NavLink to="/vendor/notifications" className={navLinkClass}>
-              Notifications
-            </NavLink>
-          </li>
         </ul>
         <div className="flex items-center gap-4">
           {user && (
