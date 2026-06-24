@@ -16,7 +16,6 @@ const HeroSection = () => {
   };
 
   useEffect(() => {
-    console.log("Input Value:", searchedService);
   }, [searchedService]);
 
   return (

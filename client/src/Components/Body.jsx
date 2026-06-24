@@ -36,10 +36,9 @@ const Body = () => {
 
       setRatingsMap(map);
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
   };
-  console.log("ratings:", ratingsMap);
   const featuredServices = service.slice(0, 4);
   const user = useSelector((store) => store.user.user);
 
