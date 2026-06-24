@@ -11,7 +11,6 @@ const VendorPendingBookings = () => {
     fetchBookings();
   }, []);
 
-  // ---------------- BOOKINGS ----------------
   const fetchBookings = async () => {
     try {
       const res = await axios.get(`${BASE_URL}/api/vendor-bookings`, {
@@ -23,7 +22,6 @@ const VendorPendingBookings = () => {
       const data = res.data.bookings;
       setBookings(data);
 
-      // 👉 fetch reviews only for completed bookings
       const completedServices = data
         .filter((b) => b.status === "completed")
         .map((b) => b.serviceId);
@@ -36,7 +34,6 @@ const VendorPendingBookings = () => {
     }
   };
 
-  // ---------------- REVIEWS (PER SERVICE) ----------------
   const fetchReviews = async (serviceId) => {
     try {
       const res = await axios.get(
@@ -52,7 +49,6 @@ const VendorPendingBookings = () => {
     }
   };
 
-  // ---------------- ACTIONS ----------------
   const handleAccept = async (id) => {
     try {
       const res = await axios.patch(
@@ -123,7 +119,6 @@ const VendorPendingBookings = () => {
           Booking Requests
         </h1>
 
-        {/* TABS */}
         <div className="flex justify-center gap-4 mb-8 flex-wrap">
           {["all", "pending", "confirmed", "completed", "cancelled"].map(
             (tab) => (
@@ -142,7 +137,6 @@ const VendorPendingBookings = () => {
           )}
         </div>
 
-        {/* BOOKINGS */}
         {filteredBookings.length === 0 ? (
           <div className="bg-white rounded-xl shadow p-8 text-center">
             <h2 className="text-2xl font-semibold text-gray-500">
@@ -156,7 +150,6 @@ const VendorPendingBookings = () => {
                 key={booking._id}
                 className="bg-white rounded-xl shadow-lg p-6"
               >
-                {/* HEADER */}
                 <div className="flex justify-between items-center">
                   <h2 className="text-2xl font-bold">{booking.serviceTitle}</h2>
 
@@ -175,8 +168,18 @@ const VendorPendingBookings = () => {
                   </span>
                 </div>
 
-                {/* DETAILS */}
                 <div className="mt-5 space-y-2 text-gray-700">
+                  <p>
+                    <b>Customer:</b> {booking.userId?.name}
+                  </p>
+
+                  <p>
+                    <b>Email:</b> {booking.userId?.email}
+                  </p>
+
+                  <p>
+                    <b>Phone:</b> {booking.userId?.phone}
+                  </p>
                   <p>
                     <b>Date:</b> {booking.bookingDate}
                   </p>
@@ -184,14 +187,12 @@ const VendorPendingBookings = () => {
                     <b>Time:</b> {booking.bookingTime}
                   </p>
                   <p>
-                    <b>Location:</b> {booking.location}
+                    <b>Customer Address:</b> {booking.location}
                   </p>
                   <p className="text-blue-600 text-xl font-bold">
                     ₹{booking.price}
                   </p>
                 </div>
-
-                {/* ACTIONS */}
                 {booking.status === "pending" && (
                   <div className="flex gap-4 mt-6">
                     <button
@@ -218,8 +219,6 @@ const VendorPendingBookings = () => {
                     Mark as Completed
                   </button>
                 )}
-
-                {/* ⭐ REVIEWS (ONLY COMPLETED) */}
                 {booking.status === "completed" && (
                   <div className="mt-6 bg-green-50 border border-green-200 rounded-xl p-4">
                     <h3 className="text-lg font-bold text-green-700 mb-2">

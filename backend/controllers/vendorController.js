@@ -11,10 +11,11 @@ export const getVendorBookings = async (req, res) => {
         message: "Only vendors can access this route",
       });
     }
-
     const bookings = await Booking.find({
       vendorId: req.user.id,
-    }).sort({ createdAt: -1 });
+    })
+      .populate("userId", "name email phone")
+      .sort({ createdAt: -1 });
 
     return res.status(200).json({
       bookings,
@@ -50,10 +51,7 @@ export const confirmBooking = async (req, res) => {
       });
     }
 
-    if (
-      booking.status === "confirmed" ||
-      booking.status === "cancelled"
-    ) {
+    if (booking.status === "confirmed" || booking.status === "cancelled") {
       return res.status(400).json({
         message: `Booking is already ${booking.status}`,
       });
@@ -62,7 +60,7 @@ export const confirmBooking = async (req, res) => {
     booking.status = "confirmed";
     await booking.save();
 
-    const user = await User.findById(booking.userId)
+    const user = await User.findById(booking.userId);
     if (user) {
       try {
         await sendMail(
@@ -71,7 +69,7 @@ export const confirmBooking = async (req, res) => {
           "Your booking has been confirmed by the vendor.",
         );
       } catch (err) {
-        console.log("Mail failed",err);
+        console.log("Mail failed", err);
       }
     }
 
@@ -86,7 +84,7 @@ export const confirmBooking = async (req, res) => {
   }
 };
 
-export const cancelBooking = async(req,res) =>{
+export const cancelBooking = async (req, res) => {
   try {
     if (req.user.role !== "vendor") {
       return res
@@ -119,14 +117,14 @@ export const cancelBooking = async(req,res) =>{
           "Unfortunately, your booking has been cancelled by the vendor.",
         );
       } catch (err) {
-        console.log("Mail failed",err);
+        console.log("Mail failed", err);
       }
     }
     res.status(200).json({
       message: "Service cancelled successfully",
-      booking
+      booking,
     });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
-}
+};

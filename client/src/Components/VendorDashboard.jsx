@@ -24,17 +24,13 @@ const VendorDashboard = () => {
     }
   };
 
-  // ---------------- STATS ----------------
   const totalBookings = bookings.length;
 
   const pendingBookings = bookings.filter((b) => b.status === "pending").length;
 
-  // ❌ confirmed remove, only completed use
   const completedBookings = bookings.filter(
     (b) => b.status === "completed",
   ).length;
-
-  // ✅ FIXED EARNINGS (completed only)
   const totalEarnings = bookings
     .filter((b) => b.status === "completed")
     .reduce((sum, b) => sum + (Number(b.price) || 0), 0);
@@ -43,15 +39,12 @@ const VendorDashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">
-      {/* Header */}
       <div className="bg-blue-600 text-white rounded-xl p-8 shadow-lg">
         <h1 className="text-4xl font-bold">Welcome Back 👋</h1>
         <p className="mt-2 text-lg text-blue-100">
           Manage your services and bookings from your dashboard.
         </p>
       </div>
-
-      {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
         <div className="bg-white rounded-xl shadow p-6">
           <h2 className="text-gray-500">Total Bookings</h2>
@@ -64,8 +57,6 @@ const VendorDashboard = () => {
             {pendingBookings}
           </h1>
         </div>
-
-        {/* ❌ confirmed removed → completed added */}
         <div className="bg-white rounded-xl shadow p-6">
           <h2 className="text-gray-500">Completed Bookings</h2>
           <h1 className="text-4xl font-bold mt-2 text-green-600">
@@ -80,8 +71,6 @@ const VendorDashboard = () => {
           </h1>
         </div>
       </div>
-
-      {/* Actions */}
       <div className="mt-10">
         <h2 className="text-2xl font-bold mb-4">Quick Actions</h2>
 
@@ -159,8 +148,6 @@ const VendorDashboard = () => {
           </div>
         )}
       </div>
-
-      {/* Footer Button */}
       <div className="mt-6 flex justify-center">
         <NavLink to="/vendor/bookings">
           <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg">

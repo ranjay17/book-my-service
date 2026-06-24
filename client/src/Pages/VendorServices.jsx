@@ -15,14 +15,11 @@ const VendorServices = () => {
 
   const fetchServices = async () => {
     try {
-      const response = await axios.get(
-        `${BASE_URL}/vendor/all-service`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
+      const response = await axios.get(`${BASE_URL}/vendor/my-services`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-      );
+      });
 
       dispatch(getAllService(response.data.services));
     } catch (error) {

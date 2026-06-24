@@ -12,7 +12,6 @@ const MyBooking = () => {
     fetchBookings();
   }, []);
 
-  // ---------------- FETCH BOOKINGS ----------------
   const fetchBookings = async () => {
     try {
       setLoading(true);
@@ -32,7 +31,6 @@ const MyBooking = () => {
     }
   };
 
-  // ---------------- CANCEL BOOKING ----------------
   const handleCancel = async (id) => {
     try {
       const response = await axios.patch(
@@ -52,7 +50,6 @@ const MyBooking = () => {
     }
   };
 
-  // ---------------- STATUS COLOR ----------------
   const getStatusColor = (status) => {
     switch (status) {
       case "pending":

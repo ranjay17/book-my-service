@@ -8,6 +8,7 @@ const ServiceDetail = () => {
   const [selectDate, setSelectData] = useState("");
   const [selectTime, setSelectTime] = useState("");
   const [reviews, setReviews] = useState([]);
+  const [location, setLocation] = useState("");
 
   const { id } = useParams();
   const navigate = useNavigate();
@@ -38,7 +39,7 @@ const ServiceDetail = () => {
       : null;
 
   const handleBookService = async () => {
-    if (!selectDate || !selectTime) {
+    if (!selectDate || !selectTime || !location) {
       alert("Please select date and time slot");
       return;
     }
@@ -50,6 +51,7 @@ const ServiceDetail = () => {
           serviceId: service._id,
           bookingDate: selectDate,
           bookingTime: selectTime,
+          location,
         },
         {
           headers: {
@@ -112,6 +114,15 @@ const ServiceDetail = () => {
                   {t}
                 </button>
               ))}
+            </div>
+            <div className="mt-4">
+              <input
+                type="text"
+                placeholder="Enter your address"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                className="w-full border p-3 rounded-lg"
+              />
             </div>
           </div>
 

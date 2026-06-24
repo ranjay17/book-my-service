@@ -11,9 +11,9 @@ export const createBooking = async (req, res) => {
       });
     }
 
-    const { serviceId, bookingDate, bookingTime } = req.body;
+    const { serviceId, bookingDate, bookingTime, location } = req.body;
 
-    if (!serviceId || !bookingDate || !bookingTime) {
+    if (!serviceId || !bookingDate || !bookingTime || !location) {
       return res.status(400).json({
         message: "All fields are required",
       });
@@ -83,7 +83,7 @@ export const createBooking = async (req, res) => {
       vendorId: service.vendorId,
       serviceTitle: service.title,
       price: service.price,
-      location: service.location,
+      location,
       bookingDate,
       bookingTime,
       status: "pending",
