@@ -1,64 +1,72 @@
 # 🚀 Book My Service
 
-A Full Stack **MERN** application that connects **customers** with **local service providers** such as salons, photographers, electricians, plumbers, cleaners, and more.
+A Full Stack **MERN Stack** platform that connects customers with trusted local service providers such as plumbers, electricians, photographers, cleaners, salon professionals, and more.
 
-Customers can discover and book services, while vendors can create, manage, and respond to booking requests through a secure **role-based platform**.
-
-> 🚧 **Project Status:** Under Active Development
+Customers can discover services, book appointments, leave reviews, and manage bookings, while vendors can create services, manage bookings, and track their business through a dedicated dashboard.
 
 ---
 
 # ✨ Features
 
-## 👤 Customer
+## 👤 Customer Features
 
-* ✅ User Registration
-* ✅ User Login
+* ✅ User Registration & Login
 * ✅ JWT Authentication
-* ✅ Frontend Authentication
 * ✅ Persistent Login using localStorage
-* ✅ Browse Dynamic Services
-* ✅ View Dynamic Service Details
-* ✅ Book a Service
-* ✅ Prevent Duplicate Slot Booking
-* ✅ Booking Stored in MongoDB
-* ✅ View My Bookings (Fetched from Backend)
-* ✅ Cancel Booking
-* ✅ Real-time Booking Status
+* ✅ Browse All Available Services
+* ✅ Search Services
+* ✅ View Detailed Service Information
+* ✅ View Vendor Information
+* ✅ Book Services with Date & Time Slot
+* ✅ Duplicate Slot Booking Prevention
+* ✅ Real-Time Booking Status Tracking
+* ✅ Cancel Bookings
+* ✅ View Booking History
+* ✅ Add Reviews & Ratings
+* ✅ View Customer Reviews
+* ✅ Dynamic Rating Calculation
 
-  * Pending
-  * Confirmed
-  * Cancelled
-* ✅ Automatic Status Update after Vendor Action
-* ✅ Booking Request Sent to Vendor
-* 🚧 Reviews & Ratings
-* 🚧 AI Chat Assistant
+### Booking Status
+
+* Pending
+* Confirmed
+* Completed
+* Cancelled
 
 ---
 
-## 🏪 Vendor
+## 🏪 Vendor Features
 
-* ✅ Vendor Registration
-* ✅ Vendor Login
+* ✅ Vendor Registration & Login
 * ✅ Dedicated Vendor Dashboard
-* ✅ Dedicated Vendor Header
-* ✅ Create Service
-* ✅ View Own Services
-* ✅ Edit Service
-* ✅ Delete Service
-* ✅ Dynamic Service Management using MongoDB
-* ✅ View Recent Bookings on Dashboard
-* ✅ View All Booking Requests
-* ✅ Confirm Booking Requests
-* ✅ Cancel Booking Requests
-* ✅ Real-time Booking Status Updates
+* ✅ Create Services
+* ✅ Edit Services
+* ✅ Delete Services
+* ✅ View Only Own Services
+* ✅ Manage Booking Requests
+* ✅ Accept Bookings
+* ✅ Reject Bookings
+* ✅ Mark Bookings as Completed
+* ✅ View Customer Reviews
 * ✅ Dashboard Statistics
 
-  * Total Bookings
-  * Pending Bookings
-  * Confirmed Jobs
-  * Total Earnings
-* 🚧 Advanced Dashboard Analytics
+### Dashboard Analytics
+
+* Total Bookings
+* Pending Bookings
+* Completed Jobs
+* Total Earnings
+
+---
+
+# ⭐ Reviews & Ratings System
+
+* ✅ Customers can submit reviews after service completion
+* ✅ Ratings stored in MongoDB
+* ✅ Average ratings calculated dynamically
+* ✅ Rating count displayed on service cards
+* ✅ Reviews displayed on service detail page
+* ✅ Vendors can view customer reviews
 
 ---
 
@@ -66,9 +74,15 @@ Customers can discover and book services, while vendors can create, manage, and 
 
 Powered by **Nodemailer**
 
-* ✅ Vendor receives an email when a new booking request is created
-* ✅ User receives an email when the booking is confirmed
-* ✅ User receives an email when the booking is cancelled by the vendor
+### Vendor Receives Email When:
+
+* New booking request is created
+* Customer cancels booking
+
+### User Receives Email When:
+
+* Vendor confirms booking
+* Vendor cancels booking
 
 ---
 
@@ -77,10 +91,9 @@ Powered by **Nodemailer**
 * ✅ JWT Authentication
 * ✅ Role-Based Authorization
 * ✅ Protected Routes
-* ✅ Password Hashing using bcrypt
-* ✅ Frontend Authentication Integration
-* ✅ Persistent Login using localStorage
-* ✅ Dynamic UI based on User Role
+* ✅ Password Hashing with bcrypt
+* ✅ Persistent Login
+* ✅ Dynamic UI Based on User Role
 
 ---
 
@@ -97,11 +110,9 @@ Powered by **Nodemailer**
 
 * ✅ Create Service
 * ✅ Get All Services
-* ✅ Get Particular Service
+* ✅ Get Single Service
 * ✅ Update Service
 * ✅ Delete Service
-
-Services are fetched dynamically from **MongoDB** instead of static frontend data.
 
 ---
 
@@ -113,7 +124,17 @@ Services are fetched dynamically from **MongoDB** instead of static frontend dat
 * ✅ Get Vendor Bookings
 * ✅ Confirm Booking (Vendor)
 * ✅ Cancel Booking (Vendor)
+* ✅ Complete Booking
+* ✅ Automatic Booking Completion
 * ✅ Slot Availability Validation
+
+---
+
+## Review APIs
+
+* ✅ Add Review
+* ✅ Get Service Reviews
+* ✅ Get Service Ratings
 
 ---
 
@@ -122,57 +143,54 @@ Services are fetched dynamically from **MongoDB** instead of static frontend dat
 ## Home Page
 
 * ✅ Responsive Hero Section
-* ✅ Dynamic Featured Services
-* ✅ Modern UI
+* ✅ Featured Services
+* ✅ Dynamic Ratings Display
+* ✅ Modern UI Design
 
 ---
 
 ## Authentication Module
 
-* ✅ Signup Page
-* ✅ Login Page
-* ✅ Persistent Login
-* ✅ Auto Login After Refresh
-* ✅ Dynamic Header (Login/Signup ↔ Logout)
-
----
-
-## Vendor Module
-
-* ✅ Dynamic Vendor Dashboard
-* ✅ Recent Bookings Section (Latest Bookings)
-* ✅ View All Bookings Page
-* ✅ Create Service
-* ✅ View Own Services
-* ✅ Edit Service
-* ✅ Delete Service
-* ✅ Dynamic Service Fetching
-* ✅ Confirm Booking
-* ✅ Cancel Booking
-* ✅ Live Dashboard Statistics
+* ✅ Signup
+* ✅ Login
+* ✅ Logout
+* ✅ Persistent Session
+* ✅ Protected Routes
 
 ---
 
 ## Service Module
 
-* ✅ Dynamic Services Page
-* ✅ Dynamic Service Cards
+* ✅ Dynamic Service Listing
 * ✅ Dynamic Service Detail Page
 * ✅ Booking Interface
 * ✅ Date Selection
 * ✅ Time Slot Selection
-* ✅ Backend Booking Integration
-* ✅ Dynamic Booking Status
-* 🚧 Reviews & Ratings
+* ✅ Reviews & Ratings Display
+* ✅ Vendor Information Display
+
+---
+
+## Vendor Module
+
+* ✅ Vendor Dashboard
+* ✅ Create Service
+* ✅ Edit Service
+* ✅ Delete Service
+* ✅ View Own Services Only
+* ✅ Manage Booking Requests
+* ✅ View Customer Reviews
+* ✅ Dashboard Statistics
 
 ---
 
 ## My Bookings
 
-* ✅ Fetch Bookings from Backend
-* ✅ Display Booking Status
+* ✅ View All User Bookings
+* ✅ Booking Status Tracking
 * ✅ Cancel Booking
-* ✅ Automatic Status Updates after Vendor Actions
+* ✅ Add Reviews After Completion
+* ✅ Automatic Status Updates
 
 ---
 
@@ -188,10 +206,10 @@ Services are fetched dynamically from **MongoDB** instead of static frontend dat
 
 ### Service Slice
 
-* ✅ Add Service
-* ✅ Get All Services
-* ✅ Update Service
-* ✅ Remove Service
+* ✅ Store Services
+* ✅ Update Services
+* ✅ Delete Services
+* ✅ Search Services
 
 ---
 
@@ -221,29 +239,25 @@ Services are fetched dynamically from **MongoDB** instead of static frontend dat
 
 # 🚀 Current Progress
 
+### Completed Features
+
 * ✅ JWT Authentication
 * ✅ Role-Based Authorization
-* ✅ Service CRUD APIs
-* ✅ Dynamic MongoDB Services
-* ✅ Dynamic Service Details
-* ✅ Booking Module
-* ✅ Backend Booking Storage
-* ✅ User Booking Management
+* ✅ Service CRUD
+* ✅ Dynamic Services
+* ✅ Booking System
+* ✅ Slot Validation
 * ✅ Vendor Booking Management
-* ✅ Dynamic Vendor Dashboard
-* ✅ Recent Bookings Section
-* ✅ View All Bookings Management
-* ✅ Booking Confirmation Flow
-* ✅ Booking Cancellation Flow
-* ✅ Real-time Booking Status Updates
-* ✅ Slot Validation Logic
+* ✅ User Booking Management
+* ✅ Vendor Dashboard
 * ✅ Email Notifications
+* ✅ Reviews & Ratings System
+* ✅ Automatic Booking Completion
+* ✅ Dynamic Rating Calculation
 * ✅ Persistent Login
-
-### 🚧 In Progress
-* Reviews & Ratings
-* AI Chat Assistant
+* ✅ Vendor Specific Services
+* ✅ Dashboard Analytics
 
 ---
 
-## ⭐ If you found this project interesting, consider giving it a star and following its development.
+## ⭐ If you found this project useful, consider giving it a star on GitHub.

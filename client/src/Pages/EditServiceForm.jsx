@@ -48,8 +48,7 @@ const EditServiceForm = () => {
         navigate("/vendor/services");
       }
     } catch (error) {
-      alert("Service Not Updated");
-      console.log(error.response?.status);
+      alert(error.response?.data || "Service Not Updated");
       setLoading(false);
     }
   };

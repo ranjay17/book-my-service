@@ -47,7 +47,7 @@ const CreateService = () => {
             dispatch(addService(response.data.newService))
             navigate("/vendor/dashboard");
         } catch (error) {
-            alert("service not created")
+            alert(error.response?.data || "service not created")
             setLoading(false)
         }
     }

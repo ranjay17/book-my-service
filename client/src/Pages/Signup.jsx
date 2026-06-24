@@ -35,7 +35,7 @@ const Signup = () => {
       }
       navigate("/login");
     } catch (error) {
-      console.log("error in creating the user:", error);
+      alert(error.response?.data)
     } finally {
       setLoading(false);
     }

@@ -38,8 +38,7 @@ const Login = () => {
         setIsLogin(false)
       }
     } catch (error) {
-      console.log(error);
-      alert("login failed");
+      alert(error.response?.data || "Login failed");
       setIsLogin(false)
     }
   };
