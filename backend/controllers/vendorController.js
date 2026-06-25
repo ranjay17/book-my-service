@@ -1,127 +1,88 @@
 import Booking from "../models/bookingModel.js";
 import User from "../models/userModel.js";
 import sendMail from "../utils/sendMail.js";
-import { autoCompleteBookings } from "./bookingController.js";
 
 export const getVendorBookings = async (req, res) => {
-  await autoCompleteBookings();
   try {
     if (req.user.role !== "vendor") {
-      return res.status(403).json({
-        message: "Only vendors can access this route",
-      });
+      return res.status(403).json({ message: "Only vendors" });
     }
-    const bookings = await Booking.find({
-      vendorId: req.user.id,
-    })
+
+    const bookings = await Booking.find({ vendorId: req.user.id })
       .populate("userId", "name email phone")
       .sort({ createdAt: -1 });
 
-    return res.status(200).json({
-      bookings,
-    });
+    return res.status(200).json({ bookings });
   } catch (error) {
-    return res.status(500).json({
-      message: error.message,
-    });
+    return res.status(500).json({ message: error.message });
   }
 };
 
 export const confirmBooking = async (req, res) => {
   try {
-    if (req.user.role !== "vendor") {
-      return res.status(403).json({
-        message: "Only vendors can confirm bookings",
-      });
-    }
+    const booking = await Booking.findById(req.params.id);
 
-    const { id } = req.params;
-
-    const booking = await Booking.findById(id);
-
-    if (!booking) {
-      return res.status(404).json({
-        message: "Booking not found",
-      });
-    }
+    if (!booking) return res.status(404).json({ message: "Not found" });
 
     if (booking.vendorId.toString() !== req.user.id) {
-      return res.status(403).json({
-        message: "You are not authorized",
-      });
+      return res.status(403).json({ message: "Not allowed" });
     }
 
-    if (booking.status === "confirmed" || booking.status === "cancelled") {
-      return res.status(400).json({
-        message: `Booking is already ${booking.status}`,
-      });
+    if (booking.status !== "pending") {
+      return res.status(400).json({ message: "Already processed" });
     }
 
     booking.status = "confirmed";
     await booking.save();
 
     const user = await User.findById(booking.userId);
-    if (user) {
-      try {
-        await sendMail(
-          user.email,
-          "Booking Confirmed",
-          "Your booking has been confirmed by the vendor.",
-        );
-      } catch (err) {
-        console.log("Mail failed", err);
-      }
+
+    if (user?.email) {
+      sendMail(
+        user.email,
+        "Booking Confirmed",
+        "Your booking is confirmed",
+      ).catch(() => {});
     }
 
     return res.status(200).json({
-      message: "Booking confirmed successfully",
+      message: "Confirmed",
       booking,
     });
   } catch (error) {
-    return res.status(500).json({
-      message: error.message,
-    });
+    return res.status(500).json({ message: error.message });
   }
 };
 
 export const cancelBooking = async (req, res) => {
   try {
-    if (req.user.role !== "vendor") {
-      return res
-        .status(400)
-        .json({ message: "you are not allowed to cancel the request" });
-    }
-    const { id } = req.params;
-    const booking = await Booking.findById(id);
-    if (!booking) {
-      return res.status(400).json({ message: "booking not found" });
-    }
+    const booking = await Booking.findById(req.params.id);
+
+    if (!booking) return res.status(404).json({ message: "Not found" });
+
     if (booking.vendorId.toString() !== req.user.id) {
-      return res.status(403).json({
-        message: "You are not authorized",
-      });
+      return res.status(403).json({ message: "Not allowed" });
     }
-    if (booking.status === "confirmed" || booking.status === "cancelled") {
-      return res.status(400).json({
-        message: `Booking is already ${booking.status}`,
-      });
+
+    if (booking.status !== "pending") {
+      return res.status(400).json({ message: "Already processed" });
     }
+
     booking.status = "cancelled";
     await booking.save();
+
     const user = await User.findById(booking.userId);
-    if (user) {
-      try {
-        await sendMail(
-          user.email,
-          "Booking Cancelled",
-          "Unfortunately, your booking has been cancelled by the vendor.",
-        );
-      } catch (err) {
-        console.log("Mail failed", err);
-      }
+
+    if (user?.email) {
+      sendMail(
+        user.email,
+        "Booking Cancelled",
+        "Your booking was cancelled",
+      ).catch(() => {});
     }
-    res.status(200).json({
-      message: "Service cancelled successfully",
+
+    return res.status(200).json({
+      message: "Cancelled",
       booking,
     });
   } catch (error) {

@@ -6,43 +6,30 @@ import User from "../models/userModel.js";
 export const createBooking = async (req, res) => {
   try {
     if (req.user.role !== "user") {
-      return res.status(400).json({
-        message: "Only users can book services",
-      });
+      return res.status(400).json({ message: "Only users can book services" });
     }
 
     const { serviceId, bookingDate, bookingTime, location } = req.body;
 
     if (!serviceId || !bookingDate || !bookingTime || !location) {
-      return res.status(400).json({
-        message: "All fields are required",
-      });
+      return res.status(400).json({ message: "All fields are required" });
     }
 
     const service = await Service.findById(serviceId);
-
     if (!service) {
-      return res.status(400).json({
-        message: "Service not found",
-      });
+      return res.status(400).json({ message: "Service not found" });
     }
 
     const vendor = await User.findById(service.vendorId);
 
-    if (!vendor) {
-      return res.status(404).json({
-        message: "Vendor not found",
-      });
-    }
     const bookingDateObj = new Date(bookingDate);
-
     const today = new Date();
     today.setHours(0, 0, 0, 0);
+
     if (bookingDateObj < today) {
-      return res.status(400).json({
-        message: "Past dates cannot be booked",
-      });
+      return res.status(400).json({ message: "Past dates cannot be booked" });
     }
+
     if (bookingDateObj.getTime() === today.getTime()) {
       const currentHour = new Date().getHours();
 
@@ -53,12 +40,8 @@ export const createBooking = async (req, res) => {
         "04:00 PM": 16,
       };
 
-      const selectedHour = slotMap[bookingTime];
-
-      if (selectedHour <= currentHour) {
-        return res.status(400).json({
-          message: "Selected time slot has already passed",
-        });
+      if (slotMap[bookingTime] <= currentHour) {
+        return res.status(400).json({ message: "Slot already passed" });
       }
     }
 
@@ -66,18 +49,14 @@ export const createBooking = async (req, res) => {
       serviceId,
       bookingDate,
       bookingTime,
-      status: {
-        $in: ["pending", "confirmed"],
-      },
+      status: { $in: ["pending", "confirmed"] },
     });
 
     if (existingBooking) {
-      return res.status(400).json({
-        message: "This slot is already booked",
-      });
+      return res.status(400).json({ message: "Slot already booked" });
     }
 
-    const newBooking = new Booking({
+    const newBooking = await Booking.create({
       userId: req.user.id,
       serviceId: service._id,
       vendorId: service.vendorId,
@@ -89,16 +68,12 @@ export const createBooking = async (req, res) => {
       status: "pending",
     });
 
-    await newBooking.save();
-
-    try {
-      await sendMail(
+    if (vendor?.email) {
+      sendMail(
         vendor.email,
         "New Booking Request",
-        "You have received a new booking request. Please confirm or cancel it.",
-      );
-    } catch (err) {
-      console.log("Mail failed");
+        "You have a new booking request.",
+      ).catch(() => {});
     }
 
     return res.status(200).json({
@@ -106,99 +81,61 @@ export const createBooking = async (req, res) => {
       booking: newBooking,
     });
   } catch (error) {
-    return res.status(500).json({
-      message: error.message,
-    });
+    return res.status(500).json({ message: error.message });
   }
 };
 
 export const getAllBooking = async (req, res) => {
-  await autoCompleteBookings();
   try {
     if (req.user.role !== "user") {
-      return res.status(400).json({
-        message: "Only users can view their bookings",
-      });
+      return res.status(400).json({ message: "Only users allowed" });
     }
-    const booking = await Booking.find({ userId: req.user.id });
-    return res.status(200).json({
-      booking,
-    });
+
+    const bookings = await Booking.find({ userId: req.user.id }).sort({
+      createdAt: -1,
+    }); 
+
+    return res.status(200).json({ booking: bookings });
   } catch (error) {
-    return res.status(500).json({
-      message: error.message,
-    });
+    return res.status(500).json({ message: error.message });
   }
 };
 
 export const cancelBooking = async (req, res) => {
   try {
     if (req.user.role !== "user") {
-      return res.status(400).json({
-        message: "Only users can cancel bookings",
-      });
+      return res.status(400).json({ message: "Only users allowed" });
     }
 
-    const { id } = req.params;
-
-    const booking = await Booking.findById(id);
-
-    if (!booking) {
-      return res.status(400).json({
-        message: "Booking not found",
-      });
-    }
+    const booking = await Booking.findById(req.params.id);
+    if (!booking) return res.status(400).json({ message: "Not found" });
 
     if (booking.userId.toString() !== req.user.id) {
-      return res.status(400).json({
-        message: "You are not authorized to cancel this booking",
-      });
+      return res.status(403).json({ message: "Not authorized" });
     }
 
-    if (booking.status === "completed" || booking.status === "cancelled") {
-      return res.status(400).json({
-        message: `Booking is already ${booking.status}`,
-      });
+    if (["completed", "cancelled"].includes(booking.status)) {
+      return res.status(400).json({ message: "Already processed" });
     }
 
     booking.status = "cancelled";
     await booking.save();
+
     const vendor = await User.findById(booking.vendorId);
 
-    if (vendor) {
-      try {
-        await sendMail(
-          vendor.email,
-          "Booking Cancelled By User",
-          `The booking for "${booking.serviceTitle}" has been cancelled by the customer.`,
-        );
-      } catch (err) {
-        console.log("Vendor mail failed:", err);
-      }
+    if (vendor?.email) {
+      sendMail(
+        vendor.email,
+        "Booking Cancelled",
+        `Booking for ${booking.serviceTitle} cancelled`,
+      ).catch(() => {});
     }
 
     return res.status(200).json({
-      message: "Booking cancelled successfully",
+      message: "Cancelled successfully",
       booking,
     });
   } catch (error) {
-    return res.status(500).json({
-      message: error.message,
-    });
+    return res.status(500).json({ message: error.message });
   }
-};
-
-export const autoCompleteBookings = async () => {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  await Booking.updateMany(
-    {
-      bookingDate: { $lt: today.toISOString().split("T")[0] },
-      status: "confirmed",
-    },
-    {
-      $set: { status: "completed" },
-    },
-  );
 };
