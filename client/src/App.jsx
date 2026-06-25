@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Header from "./Components/Header";
-import VendorHeader from "./Components/VendorHeader";
+import VendorHeader from "./Pages/vendor/VendorHeader";
 import { Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser, removeUser } from "./redux/userSlice";

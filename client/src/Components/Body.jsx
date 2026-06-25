@@ -3,7 +3,7 @@ import HeroSection from "./HeroSection";
 import ServicesCard from "./ServicesCard";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import VendorDashboard from "./VendorDashboard";
+import VendorDashboard from "../Pages/vendor/VendorDashboard";
 import axios from "axios";
 import { getAllService } from "../redux/serviceSlice";
 import { BASE_URL } from "../utils/constants";

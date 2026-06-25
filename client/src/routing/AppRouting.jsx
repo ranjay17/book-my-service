@@ -1,22 +1,22 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App.jsx";
 import Body from "../Components/Body.jsx";
-import Signup from "../Pages/Signup.jsx";
-import Login from "../Pages/Login.jsx";
-import Services from "../Pages/Services.jsx";
-import ServiceDetail from "../Pages/ServiceDetail.jsx";
-import MyBooking from "../Pages/MyBooking.jsx";
-import VendorDashboard from "../Components/VendorDashboard.jsx";
-import CreateService from "../Pages/CreateService.jsx";
-import VendorServices from "../Pages/VendorServices.jsx";
-import EditServiceForm from "../Pages/EditServiceForm.jsx";
-import VendorPendingBookings from "../Pages/VendorPendingBookings.jsx";
-import ReviewForm from "../Pages/ReviewForm.jsx";
+import Signup from "../Components/Signup.jsx";
+import Login from "../Components/Login.jsx";
+import Services from "../Pages/user/Services.jsx";
+import ServiceDetail from "../Pages/user/ServiceDetail.jsx";
+import MyBooking from "../Pages/user/MyBooking.jsx";
+import VendorDashboard from "../Pages/vendor/VendorDashboard.jsx";
+import CreateService from "../Pages/vendor/CreateService.jsx";
+import VendorServices from "../Pages/vendor/VendorServices.jsx";
+import EditServiceForm from "../Pages/vendor/EditServiceForm.jsx";
+import VendorPendingBookings from "../Pages/vendor/VendorPendingBookings.jsx";
+import ReviewForm from "../Pages/user/ReviewForm.jsx";
 import NotFound from "../Components/NotFound.jsx";
 
 import ProtectedVendorRoute from "../Components/ProtectedVendorRoute.jsx";
 import ProtectedUserRoute from "../Components/ProtectedUserRoute.jsx";
-import About from "../Pages/About.jsx";
+import About from "../Components/About.jsx";
 
 const appRouter = createBrowserRouter([
   {
@@ -44,7 +44,6 @@ const appRouter = createBrowserRouter([
         element: <ServiceDetail />,
       },
 
-      // USER ROUTES
       {
         path: "/my-bookings",
         element: (
@@ -62,7 +61,6 @@ const appRouter = createBrowserRouter([
         ),
       },
 
-      // VENDOR ROUTES
       {
         path: "/vendor/dashboard",
         element: (

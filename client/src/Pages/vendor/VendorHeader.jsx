@@ -1,8 +1,8 @@
 import React from "react";
-import logo from "../assets/logo.png";
+import logo from "../../assets/logo.png";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { removeUser } from "../redux/userSlice";
+import { removeUser } from "../../redux/userSlice";
 
 const VendorHeader = () => {
   const user = useSelector((store) => store.user.user);

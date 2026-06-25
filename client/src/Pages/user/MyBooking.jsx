@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { BASE_URL } from "../utils/constants";
+import { BASE_URL } from "../../utils/constants";
 
 const MyBooking = () => {
   const [bookings, setBookings] = useState([]);
@@ -35,6 +35,7 @@ const MyBooking = () => {
 
   const handleCancel = async (id) => {
     try {
+      setLoading(true)
       const response = await axios.patch(
         `${BASE_URL}/api/cancel-booking/${id}`,
         {},
@@ -46,9 +47,11 @@ const MyBooking = () => {
       );
 
       alert(response.data.message);
+      setLoading(false)
       fetchBookings();
     } catch (error) {
       alert(error.response?.data?.message || "Unable to cancel booking");
+      setLoading(false)
     }
   };
 

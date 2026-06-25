@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { addService } from "../redux/serviceSlice";
-import { BASE_URL } from "../utils/constants";
+import { addService } from "../../redux/serviceSlice";
+import { BASE_URL } from "../../utils/constants";
 
 const CreateService = () => {
     const[title, setTitle] = useState('');

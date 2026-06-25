@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import ServicesCard from "../Components/ServicesCard";
+import ServicesCard from "../../Components/ServicesCard";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { BASE_URL } from "../utils/constants";
-import { getAllService } from "../redux/serviceSlice";
+import { BASE_URL } from "../../utils/constants";
+import { getAllService } from "../../redux/serviceSlice";
 
 const Services = () => {
   const dispatch = useDispatch();
