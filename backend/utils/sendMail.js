@@ -3,12 +3,6 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-console.log("EMAIL:", process.env.EMAIL);
-console.log(
-  "EMAIL_PASS:",
-  process.env.EMAIL_PASS ? "PASS FOUND" : "PASS MISSING",
-);
-
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 587,
@@ -17,19 +11,17 @@ const transporter = nodemailer.createTransport({
     user: process.env.EMAIL,
     pass: process.env.EMAIL_PASS,
   },
-  connectionTimeout: 30000,
-  greetingTimeout: 30000,
-  socketTimeout: 30000,
+  family: 4,
+  requireTLS: true,
+  tls: {
+    rejectUnauthorized: false,
+  },
+  connectionTimeout: 60000,
+  socketTimeout: 60000,
 });
 
 const sendMail = async (to, subject, text) => {
   try {
-    console.log("EMAIL:", process.env.EMAIL);
-    console.log(
-      "EMAIL_PASS:",
-      process.env.EMAIL_PASS ? "PASS FOUND" : "PASS MISSING",
-    );
-
     await transporter.verify();
     console.log("SMTP Verified");
 
