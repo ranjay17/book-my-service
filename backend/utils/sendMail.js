@@ -22,7 +22,7 @@ const sendMail = async (to, subject, text) => {
       to: [{ email: to }],
       subject,
       textContent: text,
-      replyTo: "lbrainbow000@gmail.com",
+      replyTo: { email: "lbrainbow000@gmail.com" },
     });
 
     console.log("Email sent successfully:", response.messageId);
