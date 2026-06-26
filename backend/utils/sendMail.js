@@ -12,16 +12,17 @@ const tranEmailApi = new SibApiV3Sdk.TransactionalEmailsApi();
 
 const sendMail = async (to, subject, text) => {
   try {
-    console.log("Sending email to:", to);
+    console.log("📧 Sending email to:", to);
 
     const response = await tranEmailApi.sendTransacEmail({
       sender: {
-        email: "noreply@bookmyservice.com",
+        email: "no-reply@brevo.com",
         name: "BookMyService",
       },
       to: [{ email: to }],
       subject,
       textContent: text,
+      replyTo: "lbrainbow000@gmail.com",
     });
 
     console.log("Email sent successfully:", response.messageId);
