@@ -4,27 +4,31 @@ import dotenv from "dotenv";
 dotenv.config();
 
 // Brevo setup
-let defaultClient = SibApiV3Sdk.ApiClient.instance;
-let apiKey = defaultClient.authentications["api-key"];
+const client = SibApiV3Sdk.ApiClient.instance;
+const apiKey = client.authentications["api-key"];
 apiKey.apiKey = process.env.BREVO_API_KEY;
 
-const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
+const tranEmailApi = new SibApiV3Sdk.TransactionalEmailsApi();
 
 const sendMail = async (to, subject, text) => {
   try {
-    const response = await apiInstance.sendTransacEmail({
+    console.log("Sending email to:", to);
+
+    const response = await tranEmailApi.sendTransacEmail({
       sender: {
         email: "noreply@bookmyservice.com",
         name: "BookMyService",
       },
-      to: [{ email: to }], 
+      to: [{ email: to }],
       subject,
       textContent: text,
     });
 
-    console.log("Email sent successfully:", response);
+    console.log("Email sent successfully:", response.messageId);
+
+    return response;
   } catch (error) {
-    console.log("MAIL ERROR:", error);
+    console.log("MAIL ERROR:", error.response?.text || error.message);
   }
 };
 
