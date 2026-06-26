@@ -1,20 +1,28 @@
-import { Resend } from "resend";
+import SibApiV3Sdk from "sib-api-v3-sdk";
 import dotenv from "dotenv";
 
 dotenv.config();
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Brevo setup
+let defaultClient = SibApiV3Sdk.ApiClient.instance;
+let apiKey = defaultClient.authentications["api-key"];
+apiKey.apiKey = process.env.BREVO_API_KEY;
+
+const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
 
 const sendMail = async (to, subject, text) => {
   try {
-    const data = await resend.emails.send({
-      from: "BookMyService <onboarding@resend.dev>",
-      to,
+    const response = await apiInstance.sendTransacEmail({
+      sender: {
+        email: "noreply@bookmyservice.com",
+        name: "BookMyService",
+      },
+      to: [{ email: to }], 
       subject,
-      text,
+      textContent: text,
     });
 
-    console.log("Email sent:", data);
+    console.log("Email sent successfully:", response);
   } catch (error) {
     console.log("MAIL ERROR:", error);
   }
