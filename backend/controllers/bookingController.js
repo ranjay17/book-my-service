@@ -69,11 +69,15 @@ export const createBooking = async (req, res) => {
     });
 
     if (vendor?.email) {
-      sendMail(
-        vendor.email,
-        "New Booking Request",
-        "You have a new booking request.",
-      ).catch(() => {});
+      try {
+        await sendMail(
+          vendor.email,
+          "New Booking Request",
+          "You have a new booking request.",
+        );
+      } catch (err) {
+        console.error("Vendor email failed:", err.message);
+      }
     }
 
     return res.status(200).json({
@@ -93,7 +97,7 @@ export const getAllBooking = async (req, res) => {
 
     const bookings = await Booking.find({ userId: req.user.id }).sort({
       createdAt: -1,
-    }); 
+    });
 
     return res.status(200).json({ booking: bookings });
   } catch (error) {
@@ -108,7 +112,9 @@ export const cancelBooking = async (req, res) => {
     }
 
     const booking = await Booking.findById(req.params.id);
-    if (!booking) return res.status(400).json({ message: "Not found" });
+    if (!booking) {
+      return res.status(400).json({ message: "Not found" });
+    }
 
     if (booking.userId.toString() !== req.user.id) {
       return res.status(403).json({ message: "Not authorized" });
@@ -124,11 +130,15 @@ export const cancelBooking = async (req, res) => {
     const vendor = await User.findById(booking.vendorId);
 
     if (vendor?.email) {
-      sendMail(
-        vendor.email,
-        "Booking Cancelled",
-        `Booking for ${booking.serviceTitle} cancelled`,
-      ).catch(() => {});
+      try {
+        await sendMail(
+          vendor.email,
+          "Booking Cancelled",
+          `Booking for ${booking.serviceTitle} cancelled`,
+        );
+      } catch (err) {
+        console.error("Cancel email failed:", err.message);
+      }
     }
 
     return res.status(200).json({
